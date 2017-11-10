@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRETKEY','ecapu-9949l%m7_!$c65_*fi1b(t)$v4absi8=j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['iasfapply3.azurewebsites.net', 'iasf.org', 'localhost']
+ALLOWED_HOSTS = ['iasfapply3.azurewebsites.net', '*.iasf.org', 'localhost']
 
 
 # Application definition
@@ -137,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'iasf/static')
