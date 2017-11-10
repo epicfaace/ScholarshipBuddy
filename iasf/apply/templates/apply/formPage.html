@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'apply/css/form.css' %}" />
+<script id="JSONListFieldSchemas" type="application/json">
+    {{ view.JSONListFieldSchemas | safe }}
+</script>
+<script src="{% static 'apply/js/form.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+
+
+<h1>IASF Application Form</h1>
+
+<ul class="nav nav-pills nav-stacked col-xs-12 col-sm-4 col-md-3">
+    {% for page in view.get_pages %}
+        <li class="{% if forloop.counter0 == view.get_page_number %}active{% endif %}">
+            <a class="pageLink" href="{% url 'apply:form-page' forloop.counter0 %}">{{forloop.counter}}. {{ page.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="col-xs-12 col-sm-8">
+    <form method=POST {%if view.get_should_submit_ajax %}enctype="multipart/form-data" data-shouldSubmitAjax="false"{% endif %} action="" class="applicationForm">
+        
+        {% include 'apply/forms/form_as_fieldsets.html' %}
+        <a id="save" href="{% url 'apply:form-page' view.get_page_number %}">
+            <!-- Links to itself (same page). -->
+            <button class="btn btn-lg btn-primary">Save</button>
+        </a>
+    </form>
+</div>
+
+<div class="overlay saving">
+        <div id="loading-img"></div>
+</div>
+
+<div class="modal fade bs-example-modal-sm modalError" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Form validation error</h4>
+            </div>
+            <div class="modal-body">
+                An error occurred.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

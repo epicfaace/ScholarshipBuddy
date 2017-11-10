@@ -1,0 +1,23 @@
+{% if fieldset.template_name %}
+{% include fieldset.template_name %}
+{% else %}
+
+{% if not '__base_fieldset' in fieldset.name %}
+  <div class="fieldsetHeader" data-fieldset={{ fieldset.name }}>
+      {{ fieldset.name }}<hr class="small">
+  </div>
+{% endif %}
+<div class="{{ fieldset.css_classes }}">
+  {% if fieldset.legend %}
+  <legend>{{ fieldset.legend }}</legend>
+  {% endif %}
+  {{ fieldset.errors }}
+  {% for thing in fieldset %}
+    {% if thing.is_fieldset %}
+      {% include fieldset_template_name with fieldset=thing %}
+    {% else %}
+      {% include field_template_name with field=thing %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

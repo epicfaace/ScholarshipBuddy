@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    /* Initializes popovers. */
+    $(document).ready(function() {
+        $('.has-popover').popover({'trigger':'hover'});
+    });
+</script>
+{% endblock head %}
+
+{% block content %}
+
+<h1>Sign up</h1> 
+
+<form method="post" action="{% url 'signup' %}">
+{% csrf_token %}
+
+{{form.as_p}}
+
+<input type="submit" class="btn btn-primary" value="Submit" />
+
+</form>
+<br>
+<p><a href="{% url 'login' %}">Returning applicant? Sign in here.</a></p>
+
+{% endblock content %}
