@@ -52,9 +52,36 @@ class JSONListFieldSchemas:
                             "format": "textarea"
                         }
                     },
+                    "required": [
+                        "name", "grade", "description"
+                    ],
                     "order": [
                         "name", "grade", "description"
                     ]
                 }
+        },
+        "finaid_list_dependents": {
+            "type": "array",
+            "items":
+                {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Name"
+                        },
+                        "institution": {
+                            "type": "string",
+                            "title": "Institution"
+                        },
+                        "year": {
+                            "type": "string",
+                            "title": "Year"
+                        }
+                    },
+                    "order": [
+                        "name", "institution", "year"
+                    ]
+                }
+            }
         }
-    }

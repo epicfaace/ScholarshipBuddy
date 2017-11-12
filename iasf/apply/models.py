@@ -128,10 +128,10 @@ Any additional documents (optional)
     phone_mobile = models.CharField(validators=[phone_regex], max_length=15, blank=True, verbose_name="Mobile Phone") # validators should be a list
     claim_indian_descent = models.IntegerField(null=True, blank=True, choices=CLAIM_INDIAN_DESCENT_CHOICES, verbose_name="Claim to Indian descent")
     
-    home_address_1 = models.CharField(_("address"), max_length=128, blank=True)
-    home_address_2 = models.CharField(_("address cont'd"), max_length=128, blank=True)
-    home_city = models.CharField(_("city"), max_length=64, default="", blank=True)
-    home_state = models.CharField(_("state"), max_length=2, default="GA", blank=True)
+    home_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=True)
+    home_address_2 = models.CharField(_("Address Line 2"), max_length=128, blank=True)
+    home_city = models.CharField(_("City"), max_length=64, default="", blank=True)
+    home_state = models.CharField(_("State"), max_length=2, default="GA", blank=True)
     home_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=True)
 
     parent_first_name = models.CharField(max_length=50, blank=True)
@@ -152,24 +152,24 @@ Any additional documents (optional)
     hs_counselor_last_name = models.CharField(max_length=50, blank=True)
     hs_counselor_email = models.EmailField(blank=True)
 
-    hs_gpa = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places = 1)
+    hs_gpa = models.DecimalField(_("HS GPA (100 or 4.0 scale)"), blank=True, null=True, max_digits=3, decimal_places = 1)
     hs_class_rank = models.IntegerField(null=True, blank=True)
     hs_class_size = models.IntegerField(null=True, blank=True)
 
-    scores_sat_reading = models.IntegerField(blank=True, null=True)
-    scores_sat_math = models.IntegerField(blank=True, null=True)
-    scores_sat_writing = models.IntegerField(blank=True, null=True)
-    scores_sat_total = models.IntegerField(blank=True, null=True)
+    scores_sat_reading = models.IntegerField(_("SAT Score - reading"), blank=True, null=True)
+    scores_sat_math = models.IntegerField(_("SAT Score - math"), blank=True, null=True)
+    scores_sat_writing = models.IntegerField(_("SAT Score - writing"), blank=True, null=True)
+    scores_sat_total = models.IntegerField(_("SAT Score - total"), blank=True, null=True)
     # todo: max min values. 
 
-    scores_act_reading = models.IntegerField(blank=True, null=True)
-    scores_act_math = models.IntegerField(blank=True, null=True)
-    scores_act_science = models.IntegerField(blank=True, null=True)
-    scores_act_writing = models.IntegerField(blank=True, null=True)
-    scores_act_composite = models.IntegerField(blank=True, null=True)
+    scores_act_reading = models.IntegerField(_("ACT Score - reading"), blank=True, null=True)
+    scores_act_math = models.IntegerField(_("ACT Score - math"), blank=True, null=True)
+    scores_act_science = models.IntegerField(_("ACT Score - science"), blank=True, null=True)
+    scores_act_writing = models.IntegerField(_("ACT Score - writing"), blank=True, null=True)
+    scores_act_composite = models.IntegerField(_("ACT Score - composite"), blank=True, null=True)
 
-    # todo: fix ap exam scores. also do we really want this...?
-    scores_ap = JSONListSchemaField(_("AP Exams Taken"), blank=True, null=True)
+    # todo: Do we really want this...?
+    scores_ap = JSONListSchemaField(_("AP Exams Taken"), schema="scores_ap", blank=True, null=True)
 
     college_name = models.CharField(_("College name"), blank=True, max_length=100)
     college_received_acceptance_letter = models.NullBooleanField(_("I have received an acceptance letter."), max_length=100)
@@ -178,7 +178,10 @@ Any additional documents (optional)
     essay = models.TextField(blank=True, null=True)
     
     # PAGE 4: ACTIVITIES
-    activities = JSONListSchemaField(name='activities', blank=True, null=True)
+    activities_awards = JSONListSchemaField(_("Academic awards / honors"),schema='activities', blank=True, null=True)
+    activities_extracurriculars = JSONListSchemaField(_("Athletics / Clubs / Extracurriculars"),schema='activities', blank=True, null=True)
+    activities_workexperience = JSONListSchemaField(_("Work Experience"),schema='activities', blank=True, null=True)
+    activities_other = JSONListSchemaField(_("Other"),schema='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
     file_resume = models.FileField(_("Please upload your resume if available."), blank=True, null=True)
@@ -196,7 +199,7 @@ Any additional documents (optional)
     finaid_applying_for = models.NullBooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))
     finaid_income_parent = models.IntegerField(blank=True, null=True)
     finaid_income_student = models.IntegerField(blank=True, null=True)
-    finaid_list_dependents = JSONField(_("List of dependents currently entering college"), blank=True, null=True) # todo: jsonfield.
+    finaid_list_dependents = JSONListSchemaField(_("List of dependents currently entering college"), blank=True, null=True) # todo: jsonfield.
     finaid_college_costs_applicant = models.IntegerField(_("Approximate college cost for applicant"), blank=True, null=True)
     finaid_college_costs_dependents = models.IntegerField(_("Approximate college cost for other dependents"), blank=True, null=True)
     finaid_expected_contribution = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo

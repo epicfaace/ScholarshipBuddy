@@ -17,6 +17,13 @@ input[type=text], input[type=email], select, input[type=number] {
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+textarea {
+    /* Full size width for essays, etc. */
+    display: block;
+    width: 100%;
+    line-height: 150%;
+    margin: 10px 0px;
+}
 
 .formFieldset {
     display: flex;
