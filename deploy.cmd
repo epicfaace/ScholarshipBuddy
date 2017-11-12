@@ -147,6 +147,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\manage.py" (
       env\scripts\python manage.py collectstatic --noinput --clear
     )
   )
+  :: Migrate db
+  \env\Scripts\python manage.py migrate --noinput
 )
 
 popd

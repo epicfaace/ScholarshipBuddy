@@ -74,22 +74,42 @@ Any additional documents (optional)
             )
         },
         {
-            "name": "Upload Files",
-            "submitAjax": True,
+            "name": "Financial Information",
             "fields": (
-                ("file_resume",)
+                "finaid_applying_for",
+                ("Income", {"fields": (
+                    "finaid_income_parent", "finaid_income_student", "finaid_list_dependents")
+                }),
+                ("College costs", {"fields": (
+                    "finaid_college_costs_applicant", "finaid_college_costs_dependents", "finaid_expected_contribution")
+                }),
             )
         },
         {
-            "name": "Financial Information",
+            "name": "Upload Files",
+            "submitAjax": True,
             "fields": (
-                ("")
+                ("Academic", {"fields": (
+                    "file_resume",)
+                }),
+                ("file_transcript",),
+                ("file_sat_scores",),
+                ("file_act_scores",),
+                ("Financial Aid", {"fields": (
+                    "file_finaid_cost",)
+                }),
+                ("file_finaid_tuition",),
+                ("file_finaid_taxreturn",),
+                ("file_finaid_cssprofile",),
+                ("file_finaid_additional",)
             )
         },
         {
             "name": "Submit",
             "fields": (
-                ("")
+                ("Sign and submit", {"fields": (
+                    "signature",)
+                }),
             )
         }
     ]
@@ -161,25 +181,35 @@ Any additional documents (optional)
     activities = JSONListSchemaField(name='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
-    file_resume = models.FileField(blank=True, null=True)
-    file_sat_scores = models.FileField(blank=True, null=True)
-    file_act_scores = models.FileField(blank=True, null=True)
+    file_resume = models.FileField(_("Please upload your resume if available."), blank=True, null=True)
+    file_sat_scores = models.FileField(_("Please upload SAT scores if applicable."), blank=True, null=True)
+    file_act_scores = models.FileField(_("Please upload ACT scores if applicable."), blank=True, null=True)
+    file_transcript = models.FileField(_("Please upload your high school transcript."), blank=True, null=True)
     
-
+    file_finaid_cost = models.FileField(_("Financial aid package / cost of attendance letter from the university"), blank=True, null=True)
+    file_finaid_tuition = models.FileField(_("Tuition bill for applicant / other dependents if necessary"), blank=True, null=True)
+    file_finaid_taxreturn = models.FileField(_("2016 tax return; 1040 along with supporting documentation"), blank=True, null=True)
+    file_finaid_cssprofile = models.FileField(_("CSS profile report"), blank=True, null=True)
+    file_finaid_additional = models.FileField(_("Any additional documents (optional)"), blank=True, null=True)
+    
     # PAGE 6: FINANCIAL INFORMATION
-    income_parent = models.IntegerField(blank=True, null=True)
-    income_student = models.IntegerField(blank=True, null=True)
-    list_dependents = JSONField(_("List of dependents currently entering college"), blank=True, null=True) # todo: jsonfield.
-    college_costs_applicant = models.IntegerField(_("Approximate college cost for applicant"), blank=True, null=True)
-    college_costs_dependents = models.IntegerField(_("Approximate college cost for other dependents"), blank=True, null=True)
-    income_student = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo
+    finaid_applying_for = models.NullBooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))
+    finaid_income_parent = models.IntegerField(blank=True, null=True)
+    finaid_income_student = models.IntegerField(blank=True, null=True)
+    finaid_list_dependents = JSONField(_("List of dependents currently entering college"), blank=True, null=True) # todo: jsonfield.
+    finaid_college_costs_applicant = models.IntegerField(_("Approximate college cost for applicant"), blank=True, null=True)
+    finaid_college_costs_dependents = models.IntegerField(_("Approximate college cost for other dependents"), blank=True, null=True)
+    finaid_expected_contribution = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo
 
     # financial assistance from other sources
-    scholarships_hope = JSONField(blank=True, null=True)
-    scholarships_pell = JSONField(blank=True, null=True)
-    scholarships_other = JSONField(blank=True, null=True)
+    finaid_scholarships_hope = JSONField(blank=True, null=True)
+    finaid_scholarships_pell = JSONField(blank=True, null=True)
+    finaid_scholarships_other = JSONField(blank=True, null=True)
 
-    financial_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee. Attach separately, if needed."), blank=True, null=True)
+    finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee. Attach separately, if needed."), blank=True, null=True)
+
+    # submit page:
+    signature = models.CharField(_("Signature"), max_length=101, blank=True, null=True)
 
     # form meta fields.
     date_created = models.DateField(null=True, blank=True)

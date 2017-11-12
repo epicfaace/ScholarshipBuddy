@@ -6,7 +6,7 @@ Django makes it easier to build better Web apps more quickly and with less code.
 
 env\scripts\pip install -U pip
 
-\env\Scripts\python manage.py migrate
+\env\Scripts\python manage.py migrate --noinput
 
 python manage.py colectstatic
 
