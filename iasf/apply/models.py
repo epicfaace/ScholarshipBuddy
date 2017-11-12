@@ -69,6 +69,7 @@ Any additional documents (optional)
         },
         {
             "name": "Activities",
+            "help_text": "Please list your main extracurricular activities and work experience below: Include the grade level of your participation. Feel free to attach a resume or a more complete list (on the upload documents page) to supplement this list.",
             "fields": (
                 ("activities",)
             )
@@ -178,10 +179,7 @@ Any additional documents (optional)
     essay = models.TextField(blank=True, null=True)
     
     # PAGE 4: ACTIVITIES
-    activities_awards = JSONListSchemaField(_("Academic awards / honors"),schema='activities', blank=True, null=True)
-    activities_extracurriculars = JSONListSchemaField(_("Athletics / Clubs / Extracurriculars"),schema='activities', blank=True, null=True)
-    activities_workexperience = JSONListSchemaField(_("Work Experience"),schema='activities', blank=True, null=True)
-    activities_other = JSONListSchemaField(_("Other"),schema='activities', blank=True, null=True)
+    activities = JSONListSchemaField(_("Academic awards / honors / Athletics / Clubs / Extracurriculars / Work Experience / Other"),name='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
     file_resume = models.FileField(_("Please upload your resume if available."), blank=True, null=True)

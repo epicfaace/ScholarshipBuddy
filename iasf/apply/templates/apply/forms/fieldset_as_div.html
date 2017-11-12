@@ -4,7 +4,11 @@
 
 {% if not '__base_fieldset' in fieldset.name %}
   <div class="fieldsetHeader" data-fieldset={{ fieldset.name }}>
-      {{ fieldset.name }}<hr class="small">
+      {{ fieldset.name }}
+      {% if fieldset.help_text %}
+        <small>{{ fieldset.help_text }}</small>
+      {% endif %}
+      <hr class="small">
   </div>
 {% endif %}
 <div class="{{ fieldset.css_classes }}">

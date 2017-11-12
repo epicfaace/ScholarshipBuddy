@@ -1,6 +1,8 @@
 input[type=text], input[type=email], select, input[type=number] {
-    display: block;
     height: 34px;
+}
+input[type=text], input[type=email], select, input[type=number], textarea {
+    display: block;
     width: 100%;
     min-width: 200px;
     padding: 6px 12px;
@@ -17,7 +19,7 @@ input[type=text], input[type=email], select, input[type=number] {
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-textarea {
+textarea[name=essay] {
     /* Full size width for essays, etc. */
     display: block;
     width: 100%;
