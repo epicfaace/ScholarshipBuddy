@@ -29,7 +29,11 @@
         {% include 'apply/forms/form_as_fieldsets.html' %}
         <a id="save" href="{% url 'apply:form-page' view.get_page_number %}">
             <!-- Links to itself (same page). -->
-            <button class="btn btn-lg btn-primary">Save</button>
+            {% if view.get_is_submit_page %}
+                <button class="btn btn-primary">Submit application</button>
+            {% else %}
+                <button class="btn btn-primary">Save</button>
+            {% endif %}
         </a>
     </form>
 </div>

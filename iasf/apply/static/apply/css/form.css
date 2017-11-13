@@ -27,6 +27,7 @@ textarea[name=essay] {
     margin: 10px 0px;
 }
 
+
 .formFieldset {
     display: flex;
     align-items: stretch;
@@ -47,6 +48,9 @@ textarea[name=essay] {
     border-width: 1px;
     width: 20%;
     margin-top: 10px;
+}
+.JSONFieldTable {
+    min-width: 100%;
 }
 
 #loading-img {

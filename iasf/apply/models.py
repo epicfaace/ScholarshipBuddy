@@ -69,7 +69,6 @@ Any additional documents (optional)
         },
         {
             "name": "Activities",
-            "help_text": "Please list your main extracurricular activities and work experience below: Include the grade level of your participation. Feel free to attach a resume or a more complete list (on the upload documents page) to supplement this list.",
             "fields": (
                 ("activities",)
             )
@@ -79,10 +78,19 @@ Any additional documents (optional)
             "fields": (
                 "finaid_applying_for",
                 ("Income", {"fields": (
-                    "finaid_income_parent", "finaid_income_student", "finaid_list_dependents")
+                    "finaid_income_parent", "finaid_income_student",)
                 }),
+                ("finaid_list_dependents",),
                 ("College costs", {"fields": (
                     "finaid_college_costs_applicant", "finaid_college_costs_dependents", "finaid_expected_contribution")
+                }),
+                ("Scholarships", {"fields": (
+                    "finaid_scholarships_hope",
+                    "finaid_scholarships_pell",
+                    "finaid_scholarships_other",)
+                }),
+                ("Financial Needs Statement", {"fields": (
+                    "finaid_needs_statement",)
                 }),
             )
         },
@@ -107,6 +115,7 @@ Any additional documents (optional)
         },
         {
             "name": "Submit",
+            "submitPage": True,
             "fields": (
                 ("Sign and submit", {"fields": (
                     "signature",)
@@ -179,7 +188,8 @@ Any additional documents (optional)
     essay = models.TextField(blank=True, null=True)
     
     # PAGE 4: ACTIVITIES
-    activities = JSONListSchemaField(_("Academic awards / honors / Athletics / Clubs / Extracurriculars / Work Experience / Other"),name='activities', blank=True, null=True)
+    # Academic awards / honors / Athletics / Clubs / Extracurriculars / Work Experience / Other
+    activities = JSONListSchemaField(_("Activities"), help_text=_("Please list your main extracurricular activities and work experience below: Include the grade level of your participation. Feel free to attach a resume or a more complete list (on the upload documents page) to supplement this list."),name='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
     file_resume = models.FileField(_("Please upload your resume if available."), blank=True, null=True)
@@ -195,9 +205,9 @@ Any additional documents (optional)
     
     # PAGE 6: FINANCIAL INFORMATION
     finaid_applying_for = models.NullBooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))
-    finaid_income_parent = models.IntegerField(blank=True, null=True)
-    finaid_income_student = models.IntegerField(blank=True, null=True)
-    finaid_list_dependents = JSONListSchemaField(_("List of dependents currently entering college"), blank=True, null=True) # todo: jsonfield.
+    finaid_income_parent = models.IntegerField(_("Total income of both parents/ guardians last year"),blank=True, null=True)
+    finaid_income_student = models.IntegerField(_("Total income of student / applicant last year"),blank=True, null=True)
+    finaid_list_dependents = JSONListSchemaField(_("List of dependents currently attending college"), blank=True, null=True)
     finaid_college_costs_applicant = models.IntegerField(_("Approximate college cost for applicant"), blank=True, null=True)
     finaid_college_costs_dependents = models.IntegerField(_("Approximate college cost for other dependents"), blank=True, null=True)
     finaid_expected_contribution = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo
@@ -207,7 +217,7 @@ Any additional documents (optional)
     finaid_scholarships_pell = JSONField(blank=True, null=True)
     finaid_scholarships_other = JSONField(blank=True, null=True)
 
-    finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee. Attach separately, if needed."), blank=True, null=True)
+    finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee."), blank=True, null=True)
 
     # submit page:
     signature = models.CharField(_("Signature"), max_length=101, blank=True, null=True)
@@ -226,4 +236,9 @@ Any additional documents (optional)
     def getShouldSubmitAjax(self, number):
         if ("submitAjax" in self.pages[number]):
             return self.pages[number]["submitAjax"]
+        return False
+    @classmethod
+    def getIsSubmitPage(self, number):
+        if ("submitPage" in self.pages[number]):
+            return self.pages[number]["submitPage"]
         return False

@@ -57,3 +57,7 @@ class FormPage(AjaxableResponseMixin, UpdateView):
         except in the case of the page with file uploads, in which it is false.
         """
         return Application.getShouldSubmitAjax(int(self.kwargs['step']))
+    def get_is_submit_page(self):
+        """Is this submit page? Only true for the last one.
+        """
+        return Application.getIsSubmitPage(int(self.kwargs['step']))
