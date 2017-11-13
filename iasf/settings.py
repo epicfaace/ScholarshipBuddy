@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['iasfapply3.azurewebsites.net', '*.iasf.org', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'validatedfile',
     'storages',
     'betterforms',
     'iasf.accounts',
@@ -150,3 +151,6 @@ DEFAULT_FILE_STORAGE = 'iasf.common.storages.AzureStorage'
 AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME', DB_NAME)
 AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY', DB_KEY)
 AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'applicationfiles')
+
+# Magic file path -- used for file type validation.
+MAGIC_FILE_PATH = os.path.join(BASE_DIR, 'bin\magic.mgc')

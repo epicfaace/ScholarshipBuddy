@@ -8,7 +8,7 @@ env\scripts\pip install -U pip
 
 \env\Scripts\python manage.py migrate --noinput
 
-python manage.py colectstatic
+python manage.py collectstatic
 
 ```
 from django.contrib.auth.models import User
@@ -17,3 +17,6 @@ user.is_staff = True
 user.is_admin = True
 user.save()
 ```
+
+pip install -e git+git://github.com/epicfaace/django-validated-file.git#egg=django-validate
+d-file

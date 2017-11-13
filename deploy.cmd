@@ -38,6 +38,9 @@ IF NOT DEFINED NEXT_MANIFEST_PATH (
   )
 )
 
+:: Setup path (for files in /bin/path)
+set PATH= %PATH%;%DEPLOYMENT_TARGET%\wwwroot\bin\path
+
 IF NOT DEFINED KUDU_SYNC_CMD (
   :: Install kudu sync
   echo Installing Kudu Sync
