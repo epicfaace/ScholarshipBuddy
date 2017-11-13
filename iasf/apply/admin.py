@@ -81,4 +81,5 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('getApplicantName', 'getApplicationType', 'home_city', 'date_last_submitted',)
     pass
 
+admin.site.site_header = "IASF Scholarship Review Portal"
 admin.site.register(Application, ApplicationAdmin)
