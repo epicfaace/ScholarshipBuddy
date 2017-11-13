@@ -38,7 +38,6 @@ ALLOWED_HOSTS = ['iasfapply3.azurewebsites.net', '*.iasf.org', 'localhost']
 
 INSTALLED_APPS = [
     'validatedfile',
-    'storages',
     'betterforms',
     'iasf.accounts',
     'iasf.pages',
