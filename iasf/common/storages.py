@@ -192,7 +192,7 @@ class AzureStorage(Storage):
             now_plus_delta = now_plus_delta.replace(microsecond=0).isoformat() + 'Z'
             return now, now_plus_delta
 
-    def url(self, name, expire=None, mode='r'):
+    def url(self, name, expire=60, mode='r'):
         if hasattr(self.connection, 'make_blob_url'):
             sas_token = None
             make_blob_url_kwargs = {}
