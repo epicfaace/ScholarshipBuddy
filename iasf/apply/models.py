@@ -228,7 +228,22 @@ Any additional documents (optional)
     year = models.IntegerField(null=False, blank=False, default="2018")
 
     def __str__(self):
-        return self.first_name
+        return self.first_name + " " + self.last_name
+    def getApplicantName(self):
+        return self.first_name + " " + self.last_name
+    getApplicantName.short_description = "Name"
+    def getApplicationType(self):
+        # Returns application type for display in admin.
+        if self.finaid_applying_for is None:
+            return "Unspecified"
+        if not self.finaid_applying_for:
+            return "Merit"
+        else:
+            return "Financial Aid"
+    getApplicationType.short_description = "Type"
+    def getSubmitted(self):
+        return False if self.date_last_submitted is None else True
+    getSubmitted.short_description = "Submitted"
     @classmethod
     def getFields(self, number):
         return self.pages[number]["fields"];
