@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
 #from .widgets import DictionaryWidget, DictionaryArrayWidget
-from .fields import JSONListSchemaField
+from .fields import JSONListSchemaField, DocumentField
 
 class Application(models.Model):
     """
@@ -192,16 +192,16 @@ Any additional documents (optional)
     activities = JSONListSchemaField(_("Activities"), help_text=_("Please list your main extracurricular activities and work experience below: Include the grade level of your participation. Feel free to attach a resume or a more complete list (on the upload documents page) to supplement this list."),name='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
-    file_resume = models.FileField(_("Please upload your resume if available."), blank=True, null=True)
-    file_sat_scores = models.FileField(_("Please upload SAT scores if applicable."), blank=True, null=True)
-    file_act_scores = models.FileField(_("Please upload ACT scores if applicable."), blank=True, null=True)
-    file_transcript = models.FileField(_("Please upload your high school transcript."), blank=True, null=True)
+    file_resume = DocumentField(_("Please upload your resume if available."), blank=True, null=True)
+    file_sat_scores = DocumentField(_("Please upload SAT scores if applicable."), blank=True, null=True)
+    file_act_scores = DocumentField(_("Please upload ACT scores if applicable."), blank=True, null=True)
+    file_transcript = DocumentField(_("Please upload your high school transcript."), blank=True, null=True)
     
-    file_finaid_cost = models.FileField(_("Financial aid package / cost of attendance letter from the university"), blank=True, null=True)
-    file_finaid_tuition = models.FileField(_("Tuition bill for applicant / other dependents if necessary"), blank=True, null=True)
-    file_finaid_taxreturn = models.FileField(_("2016 tax return; 1040 along with supporting documentation"), blank=True, null=True)
-    file_finaid_cssprofile = models.FileField(_("CSS profile report"), blank=True, null=True)
-    file_finaid_additional = models.FileField(_("Any additional documents (optional)"), blank=True, null=True)
+    file_finaid_cost = DocumentField(_("Financial aid package / cost of attendance letter from the university"), blank=True, null=True)
+    file_finaid_tuition = DocumentField(_("Tuition bill for applicant / other dependents if necessary"), blank=True, null=True)
+    file_finaid_taxreturn = DocumentField(_("2016 tax return; 1040 along with supporting documentation"), blank=True, null=True)
+    file_finaid_cssprofile = DocumentField(_("CSS profile report"), blank=True, null=True)
+    file_finaid_additional = DocumentField(_("Any additional documents (optional)"), blank=True, null=True)
     
     # PAGE 6: FINANCIAL INFORMATION
     finaid_applying_for = models.NullBooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))

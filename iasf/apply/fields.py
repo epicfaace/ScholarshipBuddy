@@ -4,6 +4,8 @@ import jsonschema
 from django.contrib.postgres.fields import JSONField
 import json
 from .schemas import JSONListFieldSchemas
+#from validatedfile.fields import ValidatedFileField
+from django.db import models
 
 class JSONSchemaField(JSONField):
     """
@@ -29,6 +31,15 @@ class JSONListSchemaField(JSONSchemaField):
         if 'schema' in kwargs: kwargs.pop('schema')
         #self.schema = kwargs.pop('schema', {})
         super(JSONListSchemaField, self).__init__(*args, **kwargs)
+
+#class DocumentField(FileField):
+class DocumentField(models.FileField):
+    def __init__(self, *args, **kwargs):
+        #kwargs["content_types"] = ["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", "image/png", "image/jpeg", "image/gif"]
+        #kwargs["max_upload_size"] = 10485760 # 10 MB
+        # self.mime_lookup_length = kwargs.pop("mime_lookup_length", 4096)
+        super(DocumentField, self).__init__(*args, **kwargs)
+
 
 class ActivitiesField(JSONField):
     pass
