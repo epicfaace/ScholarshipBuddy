@@ -15,5 +15,6 @@ EXPOSE 80
 # Define environment variable
 ENV NAME World
 
-# Run app.py when the container launches
+CMD ["python", "manage.py", "collectstatic"]
+CMD ["python", "manage.py", "migrate" "--noinput"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
