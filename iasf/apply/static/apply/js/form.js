@@ -188,13 +188,21 @@ $(function() {
             $modal.modal();
             $(".overlay").hide();
         });
-        /* 
-        todo: add on before leave to see
-        todo: only save if data has changed.
-
-        $(window).bind('beforeunload', function(){
-            return 'Are you sure you want to leave?';
-        });
-        */
     });
+    /* Confirmation before leaving.
+     * Only show the dialog if data has changed.
+    */
+    window.onbeforeunload = function (evt) {
+        if (!$("form.applicationForm").isChanged()) {
+            return;
+        }
+        var message = 'There are unsaved changes. Are you sure you want to leave without saving?';
+        if (typeof evt == 'undefined') {
+            evt = window.event;
+        }
+        if (evt) {
+            evt.returnValue = message;
+        }
+        return message;
+    }
 });
