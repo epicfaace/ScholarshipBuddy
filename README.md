@@ -20,3 +20,7 @@ user.save()
 
 pip install -e git+git://github.com/epicfaace/django-validated-file.git#egg=django-validate
 d-file
+
+# Docker
+sudo service docker start
+
