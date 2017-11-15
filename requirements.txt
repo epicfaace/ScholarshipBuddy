@@ -1,5 +1,7 @@
 adal==0.4.7
 asn1crypto==0.23.0
+azure-common==1.1.8
+azure-nspkg==2.0.0
 azure-storage==0.36.0
 azure-storage-blob==0.37.1
 azure-storage-common==0.37.1
@@ -10,7 +12,8 @@ chardet==3.0.4
 cryptography==2.1.3
 Django==1.11.6
 django-betterforms==1.1.4
--e git://github.com/epicfaace/django-validated-file.git@cf32f6c9f561530535ff254e8373ce0b733540d6#egg=django_validated_file
+django-storages==1.6.5
+-e git://github.com/epicfaace/django-validated-file.git@44d4d24ebd2f757b6b0e5e805a6d3cede212305d#egg=django_validated_file
 enum34==1.1.6
 functools32==3.2.3.post2
 futures==3.1.1
@@ -38,4 +41,3 @@ scandir==1.6
 six==1.11.0
 urllib3==1.22
 validictory==1.1.1
-wfastcgi==3.0.0
