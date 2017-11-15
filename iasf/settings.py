@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 try:
-    from secret import DB_NAME, DB_KEY
+    from secret import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, SENDGRID_API_KEY
 except ImportError:
     DB_NAME = ""
     DB_KEY = ""
@@ -147,9 +147,15 @@ LOGIN_REDIRECT_URL = '/apply'
 LOGOUT_REDIRECT_URL = '/apply'
 
 DEFAULT_FILE_STORAGE = 'iasf.common.storages.AzureStorage'
-AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME', DB_NAME)
-AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY', DB_KEY)
+AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME', AZURE_ACCOUNT_NAME)
+AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY', AZURE_ACCOUNT_KEY)
 AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'applicationfiles')
 
 # Magic file path -- used for file type validation.
 MAGIC_FILE_PATH = os.path.join(BASE_DIR, 'bin\magic.mgc')
+
+# Email
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", SENDGRID_API_KEY)
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
