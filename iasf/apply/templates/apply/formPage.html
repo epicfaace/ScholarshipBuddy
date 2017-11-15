@@ -24,6 +24,13 @@
 </ul>
 
 <div class="col-xs-12 col-sm-8">
+    {% if form.errors %}
+        <script>
+            $(function() {
+                $(".modalError").modal();
+            });
+        </script>
+    {% endif %}
     <form method=POST {%if view.get_should_submit_ajax %}enctype="multipart/form-data" data-shouldSubmitAjax="false"{% endif %} action="" class="applicationForm">
         
         {% include 'apply/forms/form_as_fieldsets.html' %}
@@ -50,7 +57,8 @@
                 <h4 class="modal-title">Form validation error</h4>
             </div>
             <div class="modal-body">
-                An error occurred.
+                <!-- this modal is used for 1) form errors (as below) and ajax errors -->
+                {{ form.errors }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

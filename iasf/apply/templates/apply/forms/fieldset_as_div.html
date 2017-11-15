@@ -15,7 +15,7 @@
   {% if fieldset.legend %}
   <legend>{{ fieldset.legend }}</legend>
   {% endif %}
-  {{ fieldset.errors }}
+  {% include "apply/forms/error.html" with errors=fieldset.errors %}
   {% for thing in fieldset %}
     {% if thing.is_fieldset %}
       {% include fieldset_template_name with fieldset=thing %}

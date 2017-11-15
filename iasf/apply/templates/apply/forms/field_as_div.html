@@ -15,6 +15,6 @@
   {% if field|is_checkbox %}
     {{ field.label_tag }}
   {% endif %}
-  {{ field.errors }}
+  {% include "apply/forms/error.html" with errors=field.errors %}
 </div>
 {% endif %}
