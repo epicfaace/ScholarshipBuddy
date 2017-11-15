@@ -137,6 +137,10 @@ $(function() {
         isChanged: function() { 
           return this.data("changed"); 
         }
+        ,
+        setChangesSaved: function() {
+            $(this.form).data("changed", false);
+        }
     });
     $("form.applicationForm").trackChanges();
 
@@ -161,6 +165,7 @@ $(function() {
         }
 
         $.post("", $form.serialize()).success(function(data) {
+            $("form.applicationForm").setChangesSaved(); // so it doesn't show the dialog.
             window.location.href = url;
         }).fail(function(xhr) {
             var errorDialogText = "There was an error saving your data. Please fix the errors and try again.";
