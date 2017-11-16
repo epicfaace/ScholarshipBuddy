@@ -213,9 +213,9 @@ Any additional documents (optional)
     finaid_expected_contribution = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo
 
     # financial assistance from other sources
-    finaid_scholarships_hope = JSONField(blank=True, null=True)
-    finaid_scholarships_pell = JSONField(blank=True, null=True)
-    finaid_scholarships_other = JSONField(blank=True, null=True)
+    finaid_scholarships_hope = JSONListSchemaField(blank=True, null=True)
+    finaid_scholarships_pell = JSONListSchemaField(blank=True, null=True)
+    finaid_scholarships_other = JSONListSchemaField(blank=True, null=True)
 
     finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee."), blank=True, null=True)
 

@@ -41,9 +41,14 @@ class FormPage(AjaxableResponseMixin, UpdateView):
     
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
+        # Redirects to "redirect" input value.
+        print "NOT THERE"
+        print form.cleaned_data
+        if not self.request.is_ajax() and 'redirect' in form.cleaned_data:
+            def successUrlFn():
+                return form.cleaned_data['redirect']
+            self.get_success_url = successUrlFn
         return super(FormPage, self).form_valid(form)
-
     def get_pages(self):
         """Used by the template to get the page information (for display in the sidebar).
         """

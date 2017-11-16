@@ -95,6 +95,11 @@ function addNewRow(tableBodyRow, $table) {
     $row.find(".deleteRowButton").click(function() {
         $(this).closest("tr").remove();
     });
+
+    // Update to track changes, if form already has not changed.
+    if (!$("form.applicationForm").isChanged()) {
+        $("form.applicationForm").trackChanges();
+    }
 }
 /* Creates an array of objects from the json entry fields,
  * then serializes it and sets the value of the associated textarea to this string.
@@ -129,7 +134,8 @@ $(function() {
     // Form change script.
     $.fn.extend({
         trackChanges: function() {
-          $(":input",this).change(function() {
+          $(this).find(":input").off("change.form keyup.form")
+          .on("change.form keyup.form", function() {
              $(this.form).data("changed", true);
           });
         }
@@ -142,12 +148,15 @@ $(function() {
             $(this.form).data("changed", false);
         }
     });
-    $("form.applicationForm").trackChanges();
-
     parseSchemas();
+
+    $("form.applicationForm").trackChanges();
 
     // When all links (including button save, etc. clicked, submit the form by ajax and then redirect to appropriate url.
     $("a.pageLink, a").click(function(e) {
+        // Disable "are you sure..." dialog
+        window.onbeforeunload = function() {};
+
         var url = $(this).attr("href");
         var $form = $("form.applicationForm");
         $(".overlay").show();
@@ -158,41 +167,9 @@ $(function() {
         }
         e.preventDefault();
         serializeJSONFields();
-        if ($form.attr("data-shouldSubmitAjax") == "false") {
-            // For file upload fields -- can't submit files over ajax, so just submit normally.
-            $form.submit();
-            return;
-        }
 
-        $.post("", $form.serialize()).success(function(data) {
-            $("form.applicationForm").setChangesSaved(); // so it doesn't show the dialog.
-            window.location.href = url;
-        }).fail(function(xhr) {
-            var errorDialogText = "There was an error saving your data. Please fix the errors and try again.";
-            errorDialogText += "<br><br>";
-            try {
-                var errors = JSON.parse(xhr.responseText);
-                console.log(errors);
-                $addRowButton.find(":input").popover('hide');
-                for (var inputName in errors) {
-                    var message = errors[inputName].join(", ");
-                    errorDialogText += "<span class=errorTextDialog>" + inputName + ": </span>";
-                    errorDialogText += "<span class=errorMessageDialog>" + message + "</span>";
-                    errorDialogText += "<br>";
-                    $form.find(":input:visible[name='" + inputName + "'], table:visible[data-name='" + inputName + "']").popover({title: "Error", content: message}).popover('show');
-                }
-            }
-            catch (e) {
-                // JSON error not parsed successfully.
-                console.error(e);
-                errorDialogText += "Error could not be parsed.<br>" + xhr.responseText;
-            }
-
-            var $modal = $(".modalError");
-            $modal.find(".modal-body").html(errorDialogText);
-            $modal.modal();
-            $(".overlay").hide();
-        });
+        $form.find("input[name=redirect]").val($(this).attr("href"));
+        $form.submit();
     });
     /* Confirmation before leaving.
      * Only show the dialog if data has changed.

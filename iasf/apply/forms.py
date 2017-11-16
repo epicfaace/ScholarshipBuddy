@@ -7,6 +7,7 @@ class ApplicationForm(BetterModelForm):
     Abstract class for application form page. An instance of this form is created in formPage.py with the
     "fields" attribute overriden to match the fields seen in a specific page.
     """
+    redirect = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         abstract = True
         model = Application

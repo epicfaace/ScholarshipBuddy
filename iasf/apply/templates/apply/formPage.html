@@ -42,6 +42,7 @@
                 <button class="btn btn-primary">Save</button>
             {% endif %}
         </a>
+        <input type="hidden" name="redirect" value="{% url 'apply:form-page' view.get_page_number %}" />
     </form>
 </div>
 

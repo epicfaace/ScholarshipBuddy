@@ -83,5 +83,29 @@ class JSONListFieldSchemas:
                         "name", "institution", "year"
                     ]
                 }
+        },
+        "finaid_scholarships_other": {
+            "type": "array",
+            "items":
+                {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Name"
+                        },
+                        "amount": {
+                            "type": "number",
+                            "title": "Annual Amount"
+                        },
+                        "duration": {
+                            "type": "string",
+                            "title": "Expected Duration"
+                        }
+                    },
+                    "order": [
+                        "amount", "duration"
+                    ]
+                }
             }
         }
