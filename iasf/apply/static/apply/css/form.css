@@ -4,7 +4,7 @@ input[type=text], input[type=email], select, input[type=number] {
 input[type=text], input[type=email], select, input[type=number], textarea {
     display: block;
     width: 100%;
-    min-width: 200px;
+    min-width: 150px;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
@@ -19,6 +19,10 @@ input[type=text], input[type=email], select, input[type=number], textarea {
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+table.JSONFieldTable input, table.JSONFieldTable select, table.JSONFieldTable textarea {
+    min-width: 0px;
+}
+
 textarea[name=essay] {
     /* Full size width for essays, etc. */
     display: block;

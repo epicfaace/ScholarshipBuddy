@@ -24,7 +24,6 @@ CSS profile report
 Any additional documents (optional)
 
     """
-    # todo: make the pages editable (another object?)
     pages = [
         {
             "name": "Personal Information",
@@ -85,10 +84,14 @@ Any additional documents (optional)
                     "finaid_college_costs_applicant", "finaid_college_costs_dependents", "finaid_expected_contribution")
                 }),
                 ("Scholarships", {"fields": (
-                    "finaid_scholarships_hope",
-                    "finaid_scholarships_pell",
-                    "finaid_scholarships_other",)
+                    "finaid_scholarships_hope_eligible",
+                    "finaid_scholarships_hope_amount",
+                    "finaid_scholarships_hope_duration",)
                 }),
+                (   "finaid_scholarships_pell_eligible",
+                    "finaid_scholarships_pell_amount",
+                    "finaid_scholarships_pell_duration",),
+                (   "finaid_scholarships_other",),
                 ("Financial Needs Statement", {"fields": (
                     "finaid_needs_statement",)
                 }),
@@ -130,10 +133,10 @@ Any additional documents (optional)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) #todo: blank=False
 
-    first_name = models.CharField(max_length=50, blank=True)
+    first_name = models.CharField(max_length=50, blank=False)
     middle_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(blank=True)
+    last_name = models.CharField(max_length=50, blank=False)
+    email = models.EmailField(blank=False)
     phone_home = models.CharField(validators=[phone_regex], max_length=15, blank=True, verbose_name="Home Phone") # validators should be a list
     phone_mobile = models.CharField(validators=[phone_regex], max_length=15, blank=True, verbose_name="Mobile Phone") # validators should be a list
     claim_indian_descent = models.IntegerField(null=True, blank=True, choices=CLAIM_INDIAN_DESCENT_CHOICES, verbose_name="Claim to Indian descent")
@@ -182,7 +185,7 @@ Any additional documents (optional)
     scores_ap = JSONListSchemaField(_("AP Exams Taken"), schema="scores_ap", blank=True, null=True)
 
     college_name = models.CharField(_("College name"), blank=True, max_length=100)
-    college_received_acceptance_letter = models.NullBooleanField(_("I have received an acceptance letter."), max_length=100)
+    college_received_acceptance_letter = models.NullBooleanField(_("I have received an acceptance letter."))
 
     # PAGE 3: ESSAY
     essay = models.TextField(blank=True, null=True)
@@ -213,9 +216,13 @@ Any additional documents (optional)
     finaid_expected_contribution = models.IntegerField(_("Expected financial contribution"), blank=True, null=True) # per year? todo
 
     # financial assistance from other sources
-    finaid_scholarships_hope = JSONListSchemaField(blank=True, null=True)
-    finaid_scholarships_pell = JSONListSchemaField(blank=True, null=True)
-    finaid_scholarships_other = JSONListSchemaField(blank=True, null=True)
+    finaid_scholarships_hope_eligible = models.NullBooleanField(_("Eligible for HOPE Scholarship?"))
+    finaid_scholarships_hope_amount = models.IntegerField(_("HOPE Annual Amount"), blank=True, null=True)
+    finaid_scholarships_hope_duration = models.CharField(_("HOPE Expected Duration"), blank=True, null=True, max_length=20)
+    finaid_scholarships_pell_eligible = models.NullBooleanField(_("Eligible for HOPE Scholarship?"))
+    finaid_scholarships_pell_amount = models.IntegerField(_("Pell Annual Amount"), blank=True, null=True)
+    finaid_scholarships_pell_duration = models.CharField(_("Pell Expected Duration"), blank=True, null=True, max_length=20)
+    finaid_scholarships_other = JSONListSchemaField(_("Financial assistance from other sources"),blank=True, null=True)
 
     finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee."), blank=True, null=True)
 
