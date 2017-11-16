@@ -153,7 +153,7 @@ $(function() {
     $("form.applicationForm").trackChanges();
 
     // When all links (including button save, etc. clicked, submit the form by ajax and then redirect to appropriate url.
-    $("a.pageLink, a").click(function(e) {
+    $("a.pageLink, a#save").click(function(e) {
         // Disable "are you sure..." dialog
         window.onbeforeunload = function() {};
 
