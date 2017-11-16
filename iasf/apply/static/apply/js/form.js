@@ -187,4 +187,39 @@ $(function() {
         }
         return message;
     }
+
+    showHideFinaidInfo();
 });
+
+/* Shows or hides financial aid information based on whether or not user is applying for financial aid scholarship.
+ * finaid_applying_for:
+ * 1: unknown
+ * 2: Yes
+ * 3: No
+ */
+function showHideFinaidInfo() {
+    var $form = $("form.applicationForm");
+    var $selectFinaid = $form.find("[name=finaid_applying_for]")
+    $selectFinaid.on("change", finaidSelectChangedHandler);
+    finaidSelectChangedHandler.call($selectFinaid);
+
+    function finaidSelectChangedHandler() {
+        try {
+            var $toHide = $form.find("div").not("div.finaid_applying_for");
+            switch (parseInt($(this).val())) {
+                case 3://No
+                    $toHide.hide();
+                    break;
+                case 2:
+                case 1:
+                default:
+                    $toHide.show();
+                    $toHide.show();
+                    break;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+}
