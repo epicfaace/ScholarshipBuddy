@@ -14,9 +14,11 @@ import os
 
 try:
     from secret import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, SENDGRID_API_KEY
+    SETTING_DEBUG = True
 except ImportError:
     DB_NAME = ""
     DB_KEY = ""
+    SETTING_DEBUG = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +31,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRETKEY','ecapu-9949l%m7_!$c65_*fi1b(t)$v4absi8=j6#4z!t$fu$9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ.get("DEBUG") == "True" or SETTING_DEBUG==True :
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', '*.iasf.org', 'localhost']
 
