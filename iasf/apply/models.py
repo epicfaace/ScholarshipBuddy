@@ -11,17 +11,17 @@ from .fields import JSONListSchemaField, DocumentField
 
 class Application(models.Model):
     """
-Documents to upload:
-Resume (optional)
-SAT / ACT score report (required). -- maybe check with Collegeboard if it can be sent officially and directly to us?
-High school transcript -- sent through Parchment?
+    Documents to upload:
+    Resume (optional)
+    SAT / ACT score report (required). -- maybe check with Collegeboard if it can be sent officially and directly to us?
+    High school transcript -- sent through Parchment?
 
-Additional documents for financial aid:
-Financial aid package / cost of attendance letter from the university
-Tuition bill for applicant / other dependents if necessary
-2016 tax return; 1040 along with supporting documentation
-CSS profile report
-Any additional documents (optional)
+    Additional documents for financial aid:
+    Financial aid package / cost of attendance letter from the university
+    Tuition bill for applicant / other dependents if necessary
+    2016 tax return; 1040 along with supporting documentation
+    CSS profile report
+    Any additional documents (optional)
 
     """
     pages = [
@@ -131,7 +131,7 @@ Any additional documents (optional)
         (2, _("Paternal grandparents"))
     )
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    account = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) #todo: blank=False
+    account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) #todo: blank=False
 
     first_name = models.CharField(max_length=50, blank=False)
     middle_name = models.CharField(max_length=50, blank=True)
@@ -264,3 +264,16 @@ Any additional documents (optional)
         if ("submitPage" in self.pages[number]):
             return self.pages[number]["submitPage"]
         return False
+    def clean(self):
+        print "CLEANING"
+        return super(Application, self).clean()
+
+class ApplicationInProgress(Application):
+    def __init__(self, *args, **kwargs):
+        
+        super(ApplicationInProgress, self).__init__(*args, **kwargs)
+        return
+        for field in self.fields.values():
+            field.blank = True
+    #class Meta(Application.Meta):
+    #    pass

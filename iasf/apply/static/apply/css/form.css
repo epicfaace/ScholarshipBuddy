@@ -96,3 +96,8 @@ textarea[name=essay] {
     z-index: 1061;
     /* so it goes above the popovers. */
 }
+
+/* error message styling */
+ul.errorlist {
+    padding-left: 10px;
+}
