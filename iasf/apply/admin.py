@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Application
+from .models import Application, ApplicationInProgress
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -72,14 +72,17 @@ class ApplicationHasSubmittedFilter(admin.SimpleListFilter):
         return queryset.filter(date_last_submitted__isnull=findNulls)
 
 
-class CustomBarModelForm(forms.ModelForm):
+class ApplicationModelForm(forms.ModelForm):
     pass
 
 class ApplicationAdmin(admin.ModelAdmin):
-    form = CustomBarModelForm
+    form = ApplicationModelForm
     list_filter = (ApplicationTypeListFilter, ApplicationHasSubmittedFilter,)
     list_display = ('getApplicantName', 'getApplicationType', 'home_city', 'date_last_submitted',)
+
+class ApplicationInProgressAdmin(ApplicationAdmin):
     pass
 
 admin.site.site_header = "IASF Scholarship Review Portal"
 admin.site.register(Application, ApplicationAdmin)
+admin.site.register(ApplicationInProgress, ApplicationInProgressAdmin)

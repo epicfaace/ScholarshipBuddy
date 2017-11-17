@@ -1,5 +1,5 @@
 from django import forms
-from .models import ApplicationInProgress
+from .models import ApplicationInProgress, Application
 from betterforms.forms import BetterModelForm
 
 class ApplicationForm(BetterModelForm):
@@ -24,5 +24,5 @@ class ApplicationFormInProgress(ApplicationForm):
         for field in self.fields.values():
             #field.blank = True
             field.required = False
-    class Meta(ApplicationForm.Meta):
-        pass
+    class Meta:
+        model = Application

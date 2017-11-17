@@ -9,23 +9,30 @@ from iasf.apply.mixins import AjaxableResponseMixin
 from django.views.generic.edit import UpdateView
 from iasf.apply.schemas import JSONListFieldSchemas
 import json
+from django.db.models import AutoField
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 class FormPage(AjaxableResponseMixin, UpdateView):
     template_name = 'apply/formPage.html'
     model = ApplicationInProgress
     JSONListFieldSchemas = json.dumps(JSONListFieldSchemas.schema)
-    # success_url = reverse_lazy('apply:form-page', step=self.kwargs['step'])
+    # success_url = reverse_lazy('apply:form-page', kwargs={'step':self.kwargs['step']})
     # form_class = ApplicationFormInProgress
 
     def dispatch(self, *args, **kwargs):
+        """Checks to see if an ApplicationFormInProgress is already present for the user;
+           if not, redirects them to the appropriate page.
+        """
         if not self.request.user.is_authenticated:
             return HttpResponseRedirect(reverse_lazy('login'))
         # todo: error handling here.
         self.success_url = self.request.get_full_path()
         try:
+            step = int(self.kwargs['step'])
             class ApplicationFormCustom(ApplicationFormInProgress):
                 class Meta(ApplicationForm.Meta):
-                    fieldsets = ApplicationInProgress.getFields(int(self.kwargs['step']))
+                    fieldsets = Application.getFields(step)
             self.form_class = ApplicationFormCustom
         except ValueError as verr:
             return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
@@ -33,12 +40,47 @@ class FormPage(AjaxableResponseMixin, UpdateView):
             return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
         try:
             self.application = ApplicationInProgress.objects.get(account=self.request.user)
+            #self.object = self.application
         except ApplicationInProgress.DoesNotExist:
             return HttpResponseRedirect(reverse_lazy('apply:application-new'))
         return super(FormPage, self).dispatch(*args, **kwargs)
     def get_object(self):
+        """Behaves the same as form_class attribute -- but this lets one
+           subclass ApplicationFormInProgress so that only certain fieldsets are displayed from it.
+        """
         return self.application
-    
+        
+    def post(self, request, *args, **kwargs):
+        """Special handling for final submit page -- save this in the actual form as well!"""
+        step = int(self.kwargs['step'])
+        object = self.get_object()
+        if (Application.getIsSubmitPage(step)):
+            # todo: add date submitted to form.
+            super(FormPage, self).post(request, *args, **kwargs) # save incomplete form.
+            completedApp = self.copy_model_instance(object, Application)
+            try:
+                completedApp.full_clean()
+                completedApp.save()
+                return HttpResponseRedirect(reverse_lazy('apply:application-list')) #todo: success
+            except ValidationError as e:
+                # Do something based on the errors contained in e.message_dict.
+                print e
+                messages.add_message(request, messages.ERROR, 'Error submitting: ' + str(e.message_dict))
+                return HttpResponseRedirect(reverse_lazy('apply:form-page', kwargs={'step':step}))
+        else:
+            return super(FormPage, self).post(request, *args, **kwargs)
+
+    def copy_model_instance(self, obj, toClass=None):
+        """Copies model. Based on https://djangosnippets.org/snippets/1040/
+        """
+        if toClass is None:
+            toClass = obj.__class__
+        initial = dict([(f.name, getattr(obj, f.name))
+                        for f in obj._meta.fields
+                        if not isinstance(f, AutoField) and\
+                        not f in obj._meta.parents.values()])
+        return toClass(**initial)
+
     def form_valid(self, form):
         """This method is called when valid form data has been POSTed.
         Redirects to "redirect" input value."""

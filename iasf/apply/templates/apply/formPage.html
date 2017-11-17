@@ -15,6 +15,14 @@
 
 <h1>IASF Application Form</h1>
 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <ul class="nav nav-pills nav-stacked col-xs-12 col-sm-4 col-md-3">
     {% for page in view.get_pages %}
         <li class="{% if forloop.counter0 == view.get_page_number %}active{% endif %}">

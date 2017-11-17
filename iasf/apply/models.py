@@ -253,7 +253,12 @@ class Application(models.Model):
     getSubmitted.short_description = "Submitted"
     @classmethod
     def getFields(self, number):
-        return self.pages[number]["fields"];
+        return self.pages[number]["fields"]
+    @classmethod
+    def isSubmitPage(self, number):
+        """Is it a submit page? Then a different form should be used.
+        """
+        return number == len(self.pages) - 1
     @classmethod
     def getShouldSubmitAjax(self, number):
         if ("submitAjax" in self.pages[number]):
