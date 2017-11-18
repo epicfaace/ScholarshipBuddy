@@ -18,6 +18,9 @@ try:
 except ImportError:
     DB_NAME = ""
     DB_KEY = ""
+    AZURE_ACCOUNT_NAME = ""
+    AZURE_ACCOUNT_KEY = ""
+    SENDGRID_API_KEY = ""
     SETTING_DEBUG = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
