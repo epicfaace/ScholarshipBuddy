@@ -18,7 +18,3 @@ services:
       - ./src:/src
     expose:
       - "8000"
-
-  db:
-    image: postgres:latest
-    container_name: ps01
