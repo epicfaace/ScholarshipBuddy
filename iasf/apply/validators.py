@@ -1,4 +1,5 @@
 from django.core.validators import BaseValidator
+from django.utils.translation import ungettext_lazy
 
 class MaxWordsValidator(BaseValidator):
     message = ungettext_lazy(
