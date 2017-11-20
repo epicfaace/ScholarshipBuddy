@@ -12,7 +12,7 @@ class ApplicationNew(LoginRequiredMixin, View):
         if Application.objects.filter(account=self.request.user).exists():
             # don't create multiple forms.
             return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
-        application = Application(account=self.request.user);
+        application = Application(account=self.request.user, email=self.request.user.email);
         application.save()
         return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
         # return super().get(request, *args, **kwargs)

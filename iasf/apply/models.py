@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
 #from .widgets import DictionaryWidget, DictionaryArrayWidget
 from .fields import JSONListSchemaField, DocumentField
+from .validators import MaxWordsValidator
 
 class Application(models.Model):
     """
@@ -139,26 +140,26 @@ class Application(models.Model):
     email = models.EmailField(blank=False)
     phone_home = models.CharField(validators=[phone_regex], max_length=15, blank=True, verbose_name="Home Phone") # validators should be a list
     phone_mobile = models.CharField(validators=[phone_regex], max_length=15, blank=True, verbose_name="Mobile Phone") # validators should be a list
-    claim_indian_descent = models.IntegerField(null=True, blank=True, choices=CLAIM_INDIAN_DESCENT_CHOICES, verbose_name="Claim to Indian descent")
+    claim_indian_descent = models.IntegerField(null=True, blank=False, choices=CLAIM_INDIAN_DESCENT_CHOICES, verbose_name="Claim to Indian descent")
     
-    home_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=True)
+    home_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=False)
     home_address_2 = models.CharField(_("Address Line 2"), max_length=128, blank=True)
-    home_city = models.CharField(_("City"), max_length=64, default="", blank=True)
-    home_state = models.CharField(_("State"), max_length=2, default="GA", blank=True)
-    home_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=True)
+    home_city = models.CharField(_("City"), max_length=64, default="", blank=False)
+    home_state = models.CharField(_("State"), max_length=2, default="GA", blank=False) # todo disabled
+    home_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=False)
 
-    parent_first_name = models.CharField(max_length=50, blank=True)
+    parent_first_name = models.CharField(max_length=50, blank=False)
     parent_middle_name = models.CharField(max_length=50, blank=True)
-    parent_last_name = models.CharField(max_length=50, blank=True)
+    parent_last_name = models.CharField(max_length=50, blank=False)
 
     # second page:
-    hs_name = models.CharField(max_length=100, blank=True)
+    hs_name = models.CharField(max_length=100, blank=False)
     
-    hs_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=True)
+    hs_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=False)
     hs_address_2 = models.CharField(_("Address Line 2"), max_length=128, blank=True)
-    hs_city = models.CharField(_("City"), max_length=64, default="", blank=True)
-    hs_state = models.CharField(_("State"), max_length=2, default="GA", blank=True)
-    hs_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=True)
+    hs_city = models.CharField(_("City"), max_length=64, default="", blank=False)
+    hs_state = models.CharField(_("State"), max_length=2, default="GA", blank=False) # todo disabled
+    hs_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=False)
     
     hs_counselor_first_name = models.CharField(max_length=50, blank=True)
     hs_counselor_middle_name = models.CharField(max_length=50, blank=True)
@@ -188,7 +189,7 @@ class Application(models.Model):
     college_received_acceptance_letter = models.NullBooleanField(_("I have received an acceptance letter."))
 
     # PAGE 3: ESSAY
-    essay = models.TextField(blank=True, null=True)
+    essay = models.TextField(_("Essay (500 words max)"), blank=False, null=True, validators=[MaxWordsValidator(500)])
     
     # PAGE 4: ACTIVITIES
     # Academic awards / honors / Athletics / Clubs / Extracurriculars / Work Experience / Other
@@ -272,3 +273,4 @@ class Application(models.Model):
     def clean(self):
         print "CLEANING"
         return super(Application, self).clean()
+    
