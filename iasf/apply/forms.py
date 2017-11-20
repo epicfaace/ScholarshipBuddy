@@ -1,5 +1,5 @@
 from django import forms
-from .models import ApplicationInProgress, Application
+from .models import Application
 from betterforms.forms import BetterModelForm
 
 class ApplicationForm(BetterModelForm):
@@ -10,19 +10,10 @@ class ApplicationForm(BetterModelForm):
     redirect = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         abstract = True
-        model = ApplicationInProgress
-        fieldsets =  ApplicationInProgress.getFields(0)
+        model = Application
+        fieldsets =  Application.getFields(0)
         widgets = {
             'a': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
             'college_received_acceptance_letter': forms.Select(choices=[(None, "Select an option"), (True, "Yes"), (False, "No")]),
             # 'scores_ap': forms.HiddenInput(attrs= {'data-type': 'dictionaryList', 'data-schema': ScoresAPField.getProperties()})
         }
-
-class ApplicationFormInProgress(ApplicationForm):
-    def __init__(self, *args, **kwargs):
-        super(ApplicationFormInProgress, self).__init__(*args, **kwargs)
-        for field in self.fields.values():
-            #field.blank = True
-            field.required = False
-    class Meta:
-        model = Application

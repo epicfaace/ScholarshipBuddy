@@ -272,13 +272,3 @@ class Application(models.Model):
     def clean(self):
         print "CLEANING"
         return super(Application, self).clean()
-
-class ApplicationInProgress(Application):
-    def __init__(self, *args, **kwargs):
-        
-        super(ApplicationInProgress, self).__init__(*args, **kwargs)
-        return
-        for field in self.fields.values():
-            field.blank = True
-    #class Meta(Application.Meta):
-    #    pass
