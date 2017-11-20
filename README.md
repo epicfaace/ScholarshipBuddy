@@ -24,3 +24,6 @@ d-file
 # Docker
 sudo service docker start
 
+# Docker compose with nginx
+http://ruddra.com/2016/08/14/docker-django-nginx-postgres/
+http://ruddra.com/2016/11/02/serve-static-files-by-nginx-from-django-using-docker/
