@@ -36,6 +36,5 @@ coverage.xml
 *.log
 
 **/secret.py
-static
 
 docker_ssh_key
