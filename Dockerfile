@@ -14,9 +14,9 @@ ADD . /code/
 COPY start.sh /start.sh
 
 # EXPOSE port 8000 to allow communication to/from server
-#EXPOSE 80
+EXPOSE 80
 
 # CMD specifies the command to execute to start the server running.
 #CMD ["python", "manage.py", "runserver"]
-CMD ["gunicorn", "iasf.wsgi", "--log-file", "-"]
+CMD ["gunicorn", "iasf.wsgi", "--log-file", "-", "--log-level", "debug",  "--bind",  "0.0.0.0:80", "--timeout", "120"]
 # done!
