@@ -107,6 +107,10 @@ DATABASES = {
     }
 }
 
+print "===DB HOST IS==="
+print os.environ.get('DATABASEHOST', 'localhost')
+print "=== ==="
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
