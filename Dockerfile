@@ -18,7 +18,13 @@ EXPOSE 80
 
 # CMD specifies the command to execute to start the server running.
 #CMD ["python", "manage.py", "runserver"]
-RUN ["python","manage.py","collectstatic","--noinput"]
-RUN ["python","manage.py","migrate", "--noinput"]
-CMD ["gunicorn", "iasf.wsgi", "--log-file", "-", "--log-level", "debug",  "--bind",  "0.0.0.0:80", "--timeout", "120"]
+
+#RUN ["python","manage.py","collectstatic","--noinput"]
+#RUN ["python","manage.py","migrate", "--noinput"]
+#CMD ["gunicorn", "iasf.wsgi", "--log-file", "-", "--log-level", "debug",  "--bind",  "0.0.0.0:80", "--timeout", "120"]
+
+CMD python manage.py collectstatic --noinput && \
+    python manage.py migrate --noinput && \
+    gunicorn iasf.wsgi --log-file - --log-level debug --bind 0.0.0.0:80 --timeout 120
+
 # done!
