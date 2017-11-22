@@ -39,7 +39,7 @@ if os.environ.get("DEBUG") == "TRUE" or SETTING_DEBUG==True :
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', '*.iasf.org', 'localhost']
+ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', 'apply.iasf.org', 'localhost']
 
 
 # Application definition
