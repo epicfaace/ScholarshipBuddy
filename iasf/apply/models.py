@@ -271,6 +271,5 @@ class Application(models.Model):
             return self.pages[number]["submitPage"]
         return False
     def clean(self):
-        print "CLEANING"
         return super(Application, self).clean()
     

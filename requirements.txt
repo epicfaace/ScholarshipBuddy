@@ -14,9 +14,8 @@ Django==1.11.6
 django-betterforms==1.1.4
 django-sendgrid-v5==0.6.84
 django-storages==1.6.5
--e git://github.com/epicfaace/django-validated-file.git@44d4d24ebd2f757b6b0e5e805a6d3cede212305d#egg=django_validated_file
+django-constrainedfilefield==3.0.7
 enum34==1.1.6
-functools32==3.2.3.post2
 futures==3.1.1
 gunicorn==19.7.1
 idna==2.6

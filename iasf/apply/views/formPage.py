@@ -63,7 +63,6 @@ class FormPage(AjaxableResponseMixin, UpdateView):
                 return HttpResponseRedirect(reverse_lazy('apply:application-list')) #todo: success
             except ValidationError as e:
                 # Do something based on the errors contained in e.message_dict.
-                print e
                 messages.add_message(request, messages.ERROR, 'Error submitting: ' + str(e.message_dict))
                 return HttpResponseRedirect(reverse_lazy('apply:form-page', kwargs={'step':step}))
         else:

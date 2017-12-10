@@ -1,10 +1,10 @@
 # Dockerfile
 
 # FROM directive instructing base image to build upon
-FROM python:2.7
+FROM python:3.6
 
 ADD requirements.txt /requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 RUN mkdir /code/
 WORKDIR /code/

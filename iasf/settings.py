@@ -45,7 +45,7 @@ ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites
 # Application definition
 
 INSTALLED_APPS = [
-    'validatedfile',
+    'constrainedfilefield',
     'betterforms',
     'iasf.accounts',
     'iasf.pages',
@@ -106,10 +106,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-print "===DB HOST IS==="
-print os.environ.get('DATABASEHOST', 'localhost')
-print "=== ==="
 
 
 # Password validation
