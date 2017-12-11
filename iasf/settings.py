@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 try:
-    from secret import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, SENDGRID_API_KEY
+    from .secret import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, SENDGRID_API_KEY
     SETTING_DEBUG = True
 except ImportError:
     DB_NAME = ""
@@ -38,6 +38,8 @@ if os.environ.get("DEBUG") == "TRUE" or SETTING_DEBUG==True :
     DEBUG = True
 else:
     DEBUG = False
+
+print("DEBUG " + "t" if SETTING_DEBUG else "f")
 
 ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', 'apply.iasf.org', 'localhost', '127.0.0.1']
 
