@@ -3,11 +3,8 @@
 # FROM directive instructing base image to build upon
 FROM python:3.6
 
-ADD Pipfile /Pipfile
-RUN pip3 install pipenv
-
-RUN pipenv install
-RUN pipenv shell
+ADD requirements.txt /requirements.txt
+RUN pip3 install -r requirements.txt
 
 RUN mkdir /code/
 WORKDIR /code/
