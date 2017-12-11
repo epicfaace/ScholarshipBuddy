@@ -8,7 +8,7 @@ env\scripts\pip install -U pip
 
 \env\Scripts\python manage.py migrate --noinput
 
-python manage.py collectstatic
+python manage.py collectstatic 
 
 ```
 from django.contrib.auth.models import User
