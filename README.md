@@ -27,3 +27,5 @@ sudo service docker start
 # Docker compose with nginx
 http://ruddra.com/2016/08/14/docker-django-nginx-postgres/
 http://ruddra.com/2016/11/02/serve-static-files-by-nginx-from-django-using-docker/
+
+Did you know that Microsoft gives away $5,000 in Azure credits to nonprofits? Learn how I used Azure to get a nonprofit website up and running for free. #azure #microsoft #django #docker #nonprofits
