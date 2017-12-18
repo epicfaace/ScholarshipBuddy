@@ -11,6 +11,8 @@
 
 {% block content %}
 
-{% include 'apply/forms/form_as_fieldsets.html' %}
+{% for f in form_pages %}
+    {% include 'apply/forms/form_as_fieldsets.html' with form=f  %}
+{% endfor %}
 
 {% endblock content %}

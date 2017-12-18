@@ -25,17 +25,18 @@ class ReviewView(UserIsStaffMixin, UpdateView):
         # todo: error handling here.
         self.success_url = self.request.get_full_path()
         self.form_pages = []
-        try:
-            # step = int(self.kwargs['step'])
-            step = 1
-            class ApplicationFormCustom(ApplicationForm):
-                class Meta(ApplicationForm.Meta):
-                    fieldsets = Application.getFields(step)
-            self.form_class = ApplicationFormCustom
-        except ValueError as verr:
-            return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
-        except Exception as ex:
-            return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
+        for step, page in enumerate(Application.pages):
+            try:
+                # step = int(self.kwargs['step'])
+                class ApplicationFormCustom(ApplicationForm):
+                    class Meta(ApplicationForm.Meta):
+                        fieldsets = Application.getFields(step)
+                self.form_class = ApplicationFormCustom
+                self.form_pages.append(ApplicationFormCustom)
+            except ValueError as verr:
+                return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
+            except Exception as ex:
+                return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))
         try:
             self.application = Application.objects.get(pk=self.kwargs['id'])
             #self.object = self.application
@@ -47,6 +48,10 @@ class ReviewView(UserIsStaffMixin, UpdateView):
            subclass ApplicationForm so that only certain fieldsets are displayed from it.
         """
         return self.application
+    def get_context_data(self, **kwargs):
+        context = super(ReviewView, self).get_context_data(**kwargs)
+        context['form_pages'] = self.form_pages
+        return context
 """
 class ReviewView(UserIsStaffMixin, ListView):
     model = Application
