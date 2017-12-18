@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Review Application List</h1>
+
+    {% if object_list %}
+    <table class="table">
+        <thead>
+            <th>Username</th>
+            <th>Date created</th>
+            <th>Date submitted</th>
+            <th>Year</th>
+        </thead>
+        {% for app in object_list %}
+        <tr>
+            <td>{{app.account}}</td>
+            <td>{{app.date_created}}</td>
+            <td>{{app.date_last_submitted}}</td>
+            <td>{{app.year}}</td>
+            <td>
+                <a href="{% url 'review:review-view' id=app.pk %}">
+                    <button class="btn btn-primary">
+                        Review application
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+      <p>There are no applications for this year on your account.</p>
+      <a href="{% url 'apply:application-new' %}">
+        <button class="btn btn-primary">
+          Create a new application.
+        </button>
+      </a>
+    {% endif %}       
+{% endblock content %}

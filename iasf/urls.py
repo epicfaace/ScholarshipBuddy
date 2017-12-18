@@ -20,6 +20,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^apply/', include('iasf.apply.urls')),
+    url(r'^review/', include('iasf.review.urls')),
     url(r'^accounts/', include('iasf.accounts.urls')),
     url(r'^', RedirectView.as_view(url='/apply/', permanent=True))
 ]

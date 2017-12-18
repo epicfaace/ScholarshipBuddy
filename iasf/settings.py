@@ -15,6 +15,7 @@ import os
 try:
     from .secret import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY, SENDGRID_API_KEY
     SETTING_DEBUG = True
+    SETTING_SSL_REQUIRE = False
 except ImportError:
     DB_NAME = ""
     DB_KEY = ""
@@ -22,6 +23,7 @@ except ImportError:
     AZURE_ACCOUNT_KEY = ""
     SENDGRID_API_KEY = ""
     SETTING_DEBUG = False
+    SETTING_SSL_REQUIRE = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +41,7 @@ if os.environ.get("DEBUG") == "TRUE" or SETTING_DEBUG==True :
 else:
     DEBUG = False
 
-print("DEBUG " + "t" if SETTING_DEBUG else "f")
+print("Debug mode is " + "True" if SETTING_DEBUG else "False")
 
 ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', 'iasfapplynew-staging.azurewebsites.net', 'iasfapplynew.azurewebsites.net', 'apply.iasf.org', 'localhost', '127.0.0.1']
 
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'iasf.accounts',
     'iasf.pages',
     'iasf.apply',
+    'iasf.review',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -104,7 +107,7 @@ DATABASES = {
         'HOST': os.environ.get('DATABASEHOST', 'localhost'),
         'PORT': os.environ.get('DATABASEPORT', '5432'),
         'OPTIONS': {
-            'sslmode': 'require',
+            'sslmode': 'require' if SETTING_SSL_REQUIRE else 'disable',
         }
     },
     'sqlite3': {
