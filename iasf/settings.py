@@ -41,7 +41,7 @@ else:
 
 print("DEBUG " + "t" if SETTING_DEBUG else "f")
 
-ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', 'apply.iasf.org', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['iasfapply-staging.azurewebsites.net', 'iasfapply.azurewebsites.net', 'iasfapplynew-staging.azurewebsites.net', 'iasfapplynew.azurewebsites.net', 'apply.iasf.org', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -103,6 +103,9 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASEPASSWORD', 'test'),
         'HOST': os.environ.get('DATABASEHOST', 'localhost'),
         'PORT': os.environ.get('DATABASEPORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     },
     'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',
