@@ -1,1 +1,16 @@
-Review view
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'apply/css/form.css' %}" />
+<script id="JSONListFieldSchemas" type="application/json">
+    {{ view.JSONListFieldSchemas | safe }}
+</script>
+{% endblock head %}
+
+{% block content %}
+
+{% include 'apply/forms/form_as_fieldsets.html' %}
+
+{% endblock content %}
