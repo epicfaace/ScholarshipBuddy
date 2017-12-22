@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'constrainedfilefield',
     'betterforms',
     'iasf.accounts',
-    'iasf.pages',
     'iasf.apply',
     'iasf.review',
     'django.contrib.admin',
