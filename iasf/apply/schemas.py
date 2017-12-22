@@ -95,7 +95,7 @@ class JSONListFieldSchemas:
                             "title": "Name"
                         },
                         "amount": {
-                            "type": "number",
+                            "type": "string",
                             "title": "Annual Amount"
                         },
                         "duration": {
