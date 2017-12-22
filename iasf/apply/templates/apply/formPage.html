@@ -25,9 +25,11 @@
 
 <ul class="nav nav-pills nav-stacked col-xs-12 col-sm-4 col-md-3">
     {% for page in view.get_pages %}
+        {% if object.finaid_applying_for or not 'financialOnly' in page %}
         <li class="{% if forloop.counter0 == view.get_page_number %}active{% endif %}">
             <a class="pageLink" href="{% url 'apply:form-page' forloop.counter0 %}">{{forloop.counter}}. {{ page.name }}</a>
         </li>
+        {% endif %}
     {% endfor %}
 </ul>
 

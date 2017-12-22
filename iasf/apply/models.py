@@ -10,9 +10,6 @@ from django.contrib.postgres.fields import JSONField
 from .fields import JSONListSchemaField, DocumentField
 from .validators import MaxWordsValidator
 
-def isNonFinaidPage(page):
-    return not ('financialOnly' in page and page['financialOnly'] == True)
-
 class Application(models.Model):
     """
     Documents to upload:
@@ -269,12 +266,10 @@ class Application(models.Model):
     def getFields(self, number):
         fields = self.pages[number]["fields"]
         return fields
+    @classmethod
     def getPages(self):
-        """ If not applying for financial aid, remove financial aid pages.
-        """
+        """ Get pages. """
         pages = self.pages
-        if not self.finaid_applying_for:
-            pages = list(filter(isNonFinaidPage, pages))
         return pages
     @classmethod
     def isSubmitPage(self, number):

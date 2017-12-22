@@ -90,7 +90,7 @@ class FormPage(AjaxableResponseMixin, UpdateView):
     def get_pages(self):
         """Used by the template to get the page information (for display in the sidebar).
         """
-        return self.object.getPages()
+        return Application.getPages()
     def get_page_number(self):
         """Returns current page number, used by the template.
         """
