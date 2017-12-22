@@ -3,15 +3,16 @@ from __future__ import unicode_literals
 
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-from iasf.apply.models import Application
-from iasf.apply.forms import ApplicationForm
-from iasf.apply.mixins import AjaxableResponseMixin
 from django.views.generic.edit import UpdateView
-from iasf.apply.schemas import JSONListFieldSchemas
-import json
 from django.db.models import AutoField
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from datetime import datetime
+from iasf.apply.forms import ApplicationForm
+from iasf.apply.mixins import AjaxableResponseMixin
+from iasf.apply.models import Application
+from iasf.apply.schemas import JSONListFieldSchemas
+import json
 
 class FormPage(AjaxableResponseMixin, UpdateView):
     template_name = 'apply/formPage.html'
@@ -54,10 +55,11 @@ class FormPage(AjaxableResponseMixin, UpdateView):
         """Special handling for final submit page -- save this in the actual form as well!"""
         step = int(self.kwargs['step'])
         completedApp = self.get_object()
+        completedApp.date_last_modified = datetime.now()
         if (Application.getIsSubmitPage(step)):
-            # todo: add date submitted to form.
             try:
                 completedApp.full_clean()
+                completedApp.date_last_submitted = datetime.now()
                 completedApp.save()
                 # todo: redirect to success page.
                 return HttpResponseRedirect(reverse_lazy('apply:application-list')) #todo: success

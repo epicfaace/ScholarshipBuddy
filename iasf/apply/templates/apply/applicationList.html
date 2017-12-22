@@ -4,19 +4,40 @@
     <h1>Your applications</h1>
 
     {% if object_list %}
-
-        <a href="{% url 'apply:form-page-start' %}">
-            <button class="btn btn-primary">
-                Edit existing application
-            </button>
-        </a>
+        {% for app in object_list %}
+        We have an application on file for your account.<br><br>
+        <strong>Application type:</strong> {{ app.getApplicationType }}
+            <span class="dropdown">
+                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                    Change application type
+                <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                    <li><a href="#">Merit</a></li>
+                    <li><a href="#">Financial</a></li>
+                </ul>
+            </span>
+        
+        <br>
+        <strong>Date created:</strong> {{ app.date_created }}<br>
+        <strong>Date last modified:</strong> {{ app.date_last_modified }}<Br><br>
+            <a href="{% url 'apply:form-page-start' %}">
+                <button class="btn">
+                    Edit existing application
+                </button>
+            </a>
+            <br><br>
+        {% endfor %}
 
     {% else %}
-      <p>There are no applications for this year on your account.</p>
-      <a href="{% url 'apply:application-new' %}">
-        <button class="btn btn-primary">
-          Create a new application.
-        </button>
-      </a>
+      <p>You haven't started an application yet for this year with this account.</p>
+      <span class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Create a new application
+        <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+            <li><a href="{% url 'apply:application-new' 0 %}">Merit</a></li>
+            <li><a href="{% url 'apply:application-new' 1 %}">Financial</a></li>
+        </ul>
+      </span>
     {% endif %}       
 {% endblock content %}

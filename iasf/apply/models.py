@@ -45,17 +45,20 @@ class Application(models.Model):
         {
             "name": "School Information",
             "fields": (
-                ("High School", {"fields": (
-                    "hs_name", "hs_address_1", "hs_address_2", "hs_city", "hs_state", "hs_zip_code",
-                    "hs_counselor_first_name", "hs_counselor_middle_name", "hs_counselor_last_name",
+                ("High School information", {"fields": (
+                    "hs_name", "hs_address_1", "hs_address_2", "hs_city", "hs_state", "hs_zip_code")
+                }),
+                ("High school counselor information", {"fields": ("hs_counselor_first_name", "hs_counselor_middle_name", "hs_counselor_last_name",
                     "hs_counselor_email")
                 }),
                 ("Grades and test scores", {"fields": (
-                    "hs_gpa", "hs_class_rank","hs_class_size",
-                    "scores_sat_reading","scores_sat_math","scores_sat_writing","scores_sat_total",
-                    "scores_act_reading","scores_act_math","scores_act_science","scores_act_writing","scores_act_composite",
-                    "scores_ap")
+                    "hs_gpa", "hs_class_rank","hs_class_size")
                 }),
+                #("SAT / ACT scores", {"fields": (
+                ("scores_sat_reading","scores_sat_math","scores_sat_writing","scores_sat_total",),
+                ("scores_act_reading","scores_act_math","scores_act_science","scores_act_writing","scores_act_composite",),
+                ("scores_ap")
+                ,
                 ("College information", {"fields": (
                     "college_name","college_received_acceptance_letter")
                 })
@@ -76,7 +79,6 @@ class Application(models.Model):
         {
             "name": "Financial Information",
             "fields": (
-                "finaid_applying_for",
                 ("Income", {"fields": (
                     "finaid_income_parent", "finaid_income_student",)
                 }),
@@ -133,6 +135,7 @@ class Application(models.Model):
     )
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) #todo: blank=False
+    finaid_applying_for = models.BooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))
 
     first_name = models.CharField(max_length=50, blank=False)
     middle_name = models.CharField(max_length=50, blank=True)
@@ -153,7 +156,7 @@ class Application(models.Model):
     parent_last_name = models.CharField(max_length=50, blank=False)
 
     # second page:
-    hs_name = models.CharField(max_length=100, blank=False)
+    hs_name = models.CharField(max_length=100, blank=False, verbose_name="HS Name")
     
     hs_address_1 = models.CharField(_("Address Line 1"), max_length=128, blank=False)
     hs_address_2 = models.CharField(_("Address Line 2"), max_length=128, blank=True)
@@ -161,14 +164,14 @@ class Application(models.Model):
     hs_state = models.CharField(_("State"), max_length=2, default="GA", blank=False) # todo disabled
     hs_zip_code = models.CharField(_("Zip Code"), max_length=5, default="", blank=False)
     
-    hs_counselor_first_name = models.CharField(max_length=50, blank=True)
-    hs_counselor_middle_name = models.CharField(max_length=50, blank=True)
-    hs_counselor_last_name = models.CharField(max_length=50, blank=True)
-    hs_counselor_email = models.EmailField(blank=True)
+    hs_counselor_first_name = models.CharField(max_length=50, blank=True, verbose_name="Counselor first name")
+    hs_counselor_middle_name = models.CharField(max_length=50, blank=True, verbose_name="Middle name")
+    hs_counselor_last_name = models.CharField(max_length=50, blank=True, verbose_name="Last name")
+    hs_counselor_email = models.EmailField(blank=True, verbose_name="Email")
 
     hs_gpa = models.DecimalField(_("HS GPA (100 or 4.0 scale)"), blank=True, null=True, max_digits=3, decimal_places = 1)
-    hs_class_rank = models.IntegerField(null=True, blank=True)
-    hs_class_size = models.IntegerField(null=True, blank=True)
+    hs_class_rank = models.IntegerField(null=True, blank=True,verbose_name="HS Class Rank")
+    hs_class_size = models.IntegerField(null=True, blank=True,verbose_name="HS Class Size")
 
     scores_sat_reading = models.IntegerField(_("SAT Score - reading"), blank=True, null=True)
     scores_sat_math = models.IntegerField(_("SAT Score - math"), blank=True, null=True)
@@ -182,7 +185,6 @@ class Application(models.Model):
     scores_act_writing = models.IntegerField(_("ACT Score - writing"), blank=True, null=True)
     scores_act_composite = models.IntegerField(_("ACT Score - composite"), blank=True, null=True)
 
-    # todo: Do we really want this...?
     scores_ap = JSONListSchemaField(_("AP Exams Taken"), schema="scores_ap", blank=True, null=True)
 
     college_name = models.CharField(_("College name"), blank=True, max_length=100)
@@ -208,7 +210,6 @@ class Application(models.Model):
     file_finaid_additional = DocumentField(_("Any additional documents (optional)"), blank=True, null=True)
     
     # PAGE 6: FINANCIAL INFORMATION
-    finaid_applying_for = models.NullBooleanField(_("Applying for financial aid?"), help_text=_("If you are applying for financial aid, you will be applying for the separate financial aid scholarship. Otherwise, you will be considered only for the merit scholarship."))
     finaid_income_parent = models.IntegerField(_("Total income of both parents/ guardians last year"),blank=True, null=True)
     finaid_income_student = models.IntegerField(_("Total income of student / applicant last year"),blank=True, null=True)
     finaid_list_dependents = JSONListSchemaField(_("List of dependents currently attending college"), blank=True, null=True)
@@ -232,6 +233,7 @@ class Application(models.Model):
 
     # form meta fields.
     date_created = models.DateField(null=True, blank=True)
+    date_last_modified = models.DateField(null=True, blank=True)
     date_last_submitted = models.DateField(null=True, blank=True)
     year = models.IntegerField(null=False, blank=False, default="2018")
 
@@ -272,4 +274,3 @@ class Application(models.Model):
         return False
     def clean(self):
         return super(Application, self).clean()
-    
