@@ -10,19 +10,8 @@ from django.contrib.postgres.fields import JSONField
 from .fields import JSONListSchemaField, DocumentField
 from .validators import MaxWordsValidator
 
-def isNonFinaidfieldset(fieldset):
-    """
-    Filters out all financial-aid related fields and fieldsets.
-    """
-    if len(fieldset) == 1 or not 'fields' in fieldset[1]:
-        # not a fieldset
-        return not (fieldset[0].startswith('finaid_') or fieldset[0].startswith('file_finaid_'))
-    elif not 'fields' in fieldset[1]:
-        return False
-    else:
-        return isNonFinaidfieldset(fieldset[1]['fields'])
 def isNonFinaidPage(page):
-    return not ('financialOnly' in page['name'] and page['name']['financialOnly'] == True)
+    return not ('financialOnly' in page and page['financialOnly'] == True)
 
 class Application(models.Model):
     """
@@ -279,11 +268,13 @@ class Application(models.Model):
     @classmethod
     def getFields(self, number):
         fields = self.pages[number]["fields"]
-        #fields = filter(isNonFinaidfieldset, fields)
         return fields
-    @classmethod
     def getPages(self):
-        pages = filter(isNonFinaidPage, self.pages)
+        """ If not applying for financial aid, remove financial aid pages.
+        """
+        pages = self.pages
+        if not self.finaid_applying_for:
+            pages = list(filter(isNonFinaidPage, pages))
         return pages
     @classmethod
     def isSubmitPage(self, number):
