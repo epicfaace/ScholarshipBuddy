@@ -90,14 +90,14 @@ class FormPage(AjaxableResponseMixin, UpdateView):
     def get_pages(self):
         """Used by the template to get the page information (for display in the sidebar).
         """
-        return Application.pages
+        return Application.getPages()
     def get_page_number(self):
         """Returns current page number, used by the template.
         """
         return int(self.kwargs['step'])
     def get_should_submit_ajax(self):
-        """Should it submit through ajax? This is always true
-        except in the case of the page with file uploads, in which it is false.
+        """Should it submit through a regular form submission? This is always false
+        except in the case of the page with file uploads, in which it is true.
         """
         return Application.getShouldSubmitAjax(int(self.kwargs['step']))
     def get_is_submit_page(self):

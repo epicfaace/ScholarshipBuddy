@@ -18,7 +18,7 @@ class ApplicationNew(LoginRequiredMixin, View):
             email=self.request.user.email,
             date_created=datetime.now(),
             date_last_modified=datetime.now(),
-            finaid_applying_for=self.kwargs['finaid_applying_for']==1
+            finaid_applying_for=int(self.kwargs['finaid_applying_for'])==1
         )
         application.save()
         return HttpResponseRedirect(reverse_lazy('apply:form-page-start'))

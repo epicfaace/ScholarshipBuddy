@@ -11,15 +11,18 @@
                 <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                     Change application type
                 <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                    <li><a href="#">Merit</a></li>
-                    <li><a href="#">Financial</a></li>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'apply:application-change-type' 0 %}">Merit</a></li>
+                    <li><a href="{% url 'apply:application-change-type' 1 %}">Financial</a></li>
                 </ul>
             </span>
         
         <br>
         <strong>Date created:</strong> {{ app.date_created }}<br>
-        <strong>Date last modified:</strong> {{ app.date_last_modified }}<Br><br>
+        <strong>Date last modified:</strong> {{ app.date_last_modified }}<Br>
+        <strong>Deadline:</strong> TBA<!-- todo update this -->
+        
+            <br>
             <a href="{% url 'apply:form-page-start' %}">
                 <button class="btn">
                     Edit existing application

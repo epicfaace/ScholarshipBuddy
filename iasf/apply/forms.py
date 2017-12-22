@@ -17,3 +17,4 @@ class ApplicationForm(BetterModelForm):
             'college_received_acceptance_letter': forms.Select(choices=[(None, "Select an option"), (True, "Yes"), (False, "No")]),
             # 'scores_ap': forms.HiddenInput(attrs= {'data-type': 'dictionaryList', 'data-schema': ScoresAPField.getProperties()})
         }
+    name = "A"

@@ -10,6 +10,20 @@ from django.contrib.postgres.fields import JSONField
 from .fields import JSONListSchemaField, DocumentField
 from .validators import MaxWordsValidator
 
+def isNonFinaidfieldset(fieldset):
+    """
+    Filters out all financial-aid related fields and fieldsets.
+    """
+    if len(fieldset) == 1 or not 'fields' in fieldset[1]:
+        # not a fieldset
+        return not (fieldset[0].startswith('finaid_') or fieldset[0].startswith('file_finaid_'))
+    elif not 'fields' in fieldset[1]:
+        return False
+    else:
+        return isNonFinaidfieldset(fieldset[1]['fields'])
+def isNonFinaidPage(page):
+    return not ('financialOnly' in page['name'] and page['name']['financialOnly'] == True)
+
 class Application(models.Model):
     """
     Documents to upload:
@@ -78,6 +92,7 @@ class Application(models.Model):
         },
         {
             "name": "Financial Information",
+            "financialOnly": True,
             "fields": (
                 ("Income", {"fields": (
                     "finaid_income_parent", "finaid_income_student",)
@@ -101,7 +116,7 @@ class Application(models.Model):
             )
         },
         {
-            "name": "Upload Files",
+            "name": "Upload Files - Academic",
             "submitAjax": True,
             "fields": (
                 ("Academic", {"fields": (
@@ -110,6 +125,13 @@ class Application(models.Model):
                 ("file_transcript",),
                 ("file_sat_scores",),
                 ("file_act_scores",),
+            )
+        },
+        {
+            "name": "Upload Files - Financial Aid",
+            "submitAjax": True,
+            "financialOnly": True,
+            "fields": (
                 ("Financial Aid", {"fields": (
                     "file_finaid_cost",)
                 }),
@@ -256,7 +278,13 @@ class Application(models.Model):
     getSubmitted.short_description = "Submitted"
     @classmethod
     def getFields(self, number):
-        return self.pages[number]["fields"]
+        fields = self.pages[number]["fields"]
+        #fields = filter(isNonFinaidfieldset, fields)
+        return fields
+    @classmethod
+    def getPages(self):
+        pages = filter(isNonFinaidPage, self.pages)
+        return pages
     @classmethod
     def isSubmitPage(self, number):
         """Is it a submit page? Then a different form should be used.
