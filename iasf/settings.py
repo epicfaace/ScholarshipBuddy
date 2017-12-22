@@ -178,3 +178,6 @@ MAGIC_FILE_PATH = os.path.join(BASE_DIR, 'bin\magic.mgc')
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", SENDGRID_API_KEY)
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+# django-registration settings
+ACCOUNT_ACTIVATION_DAYS = 14
