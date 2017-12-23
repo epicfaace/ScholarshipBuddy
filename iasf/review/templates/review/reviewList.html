@@ -40,11 +40,6 @@
         {% endfor %}
     </table>
     {% else %}
-      <p>There are no applications for this year on your account.</p>
-      <a href="{% url 'apply:application-new' %}">
-        <button class="btn btn-primary">
-          Create a new application.
-        </button>
-      </a>
+      <p>There are no applications in this category yet.</p>
     {% endif %}       
 {% endblock content %}
