@@ -1,4 +1,5 @@
 from iasf.review.mixins import UserIsStaffMixin
+from django.forms.models import model_to_dict
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -28,6 +29,7 @@ class ReviewView(UserIsStaffMixin, TemplateView):
         self.success_url = self.request.get_full_path()
         self.form_pages = []
         # self.fields['sku'].widget.attrs['readonly'] = True
+        initValues = model_to_dict(self.application)
         for step, page in enumerate(Application.pages):
             if (not self.application.finaid_applying_for and 'financialOnly' in page and page['financialOnly'] == True):
                 continue
@@ -40,7 +42,7 @@ class ReviewView(UserIsStaffMixin, TemplateView):
                 class Meta(ApplicationForm.Meta):
                     fieldsets = Application.getFields(step)
             self.form_class = ApplicationFormCustom
-            self.form_pages.append(ApplicationFormCustom(initial=self.application.__dict__))
+            self.form_pages.append(ApplicationFormCustom(initial=initValues))
         return super(ReviewView, self).dispatch(*args, **kwargs)
     
     def get_context_data(self, **kwargs):
