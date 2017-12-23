@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>Forgot username</h1>
+
+<p>{% trans "Forgot username? Please enter your email address below to get your username mailed to you." %}</p>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" class="btn btn-primary">
+</form>
+
+{% endblock %}
