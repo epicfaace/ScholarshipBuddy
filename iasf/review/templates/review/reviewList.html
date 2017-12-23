@@ -3,18 +3,30 @@
 {% block content %}
     <h1>Review Application List</h1>
 
+    <ul class="nav nav-tabs">
+        <li{% if filter == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'all' %}">All</a></li>
+        <li{% if filter == "merit" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'merit' %}">Merit</a></li>
+        <li{% if filter == "financial" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'financial' %}">Financial</a></li>
+    </ul>
+
     {% if object_list %}
     <table class="table">
         <thead>
+            <th>Type</th>
             <th>Username</th>
+            <th>Email</th>
             <th>Date created</th>
+            <th>Date last modified</th>
             <th>Date submitted</th>
             <th>Year</th>
         </thead>
         {% for app in object_list %}
         <tr>
+            <td>{{app.getApplicationType}}</td>
             <td>{{app.account}}</td>
+            <td>{{app.account.email}}</td>
             <td>{{app.date_created}}</td>
+            <td>{{app.date_last_modified}}</td>
             <td>{{app.date_last_submitted}}</td>
             <td>{{app.year}}</td>
             <td>

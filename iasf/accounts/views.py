@@ -31,7 +31,7 @@ class ForgotUsernameView(FormView):
         
         context = {
             'username': user.username,
-            'protocol': self.request.scheme + 'a',
+            'protocol': self.request.scheme,
             'domain': self.request.get_host()
         }
         subject = render_to_string(self.email_subject_template,
