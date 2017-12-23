@@ -4,7 +4,7 @@ import os.path
 import mimetypes
 from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
-from azure.storage import CloudStorageAccount
+from azure.storage.common.cloudstorageaccount import CloudStorageAccount
 from tempfile import SpooledTemporaryFile
 from django.core.files.base import File
 from django.utils.encoding import force_bytes
