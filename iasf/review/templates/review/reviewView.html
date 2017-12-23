@@ -8,8 +8,15 @@
     {{ view.JSONListFieldSchemas | safe }}
 </script>
 {% endblock head %}
+{% block navbar %}
+<input type=button class="btn btn-sm" value="Go Back" onClick="javascript:history.go(-1);">
+Reviewing {{ application.getApplicantName }}'s {{ application.getApplicationType }} application
+
+{% endblock %}
 
 {% block content %}
+
+
 
 {% for f in form_pages %}
     {% include 'apply/forms/form_as_fieldsets.html' with form=f  %}
