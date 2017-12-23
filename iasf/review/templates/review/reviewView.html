@@ -15,11 +15,19 @@ Reviewing {{ application.getApplicantName }}'s {{ application.getApplicationType
 {% endblock %}
 
 {% block content %}
+<form class="applicationForm">
 
+    {% for f in form_pages %}
+        {% include 'apply/forms/form_as_fieldsets.html' with form=f  %}
+    {% endfor %}
 
+</form>
 
-{% for f in form_pages %}
-    {% include 'apply/forms/form_as_fieldsets.html' with form=f  %}
-{% endfor %}
+<script src="{% static 'apply/js/parseSchemas.js' %}"></script>
+<script>
+    $(function() {
+        parseSchemas(false);
+    });
+</script>
 
 {% endblock content %}
