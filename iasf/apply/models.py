@@ -6,9 +6,9 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
-#from .widgets import DictionaryWidget, DictionaryArrayWidget
 from .fields import JSONListSchemaField, DocumentField
 from .validators import MaxWordsValidator
+from django.forms import widgets
 
 class Application(models.Model):
     """
@@ -106,7 +106,8 @@ class Application(models.Model):
             "submitAjax": True,
             "fields": (
                 ("Academic", {"fields": (
-                    "file_resume",)
+                    #"file_resume",)
+                )
                 }),
                 ("file_transcript",),
                 ("file_sat_scores",),
@@ -140,6 +141,13 @@ class Application(models.Model):
     CLAIM_INDIAN_DESCENT_CHOICES = (
         (1, _("Maternal grandparents")),
         (2, _("Paternal grandparents"))
+    )
+    WHERE_HEARD_CHOICES = (
+        (1, _("Friend/Family")),
+        (2, _("Guidance counselor")),
+        (3, _("Khabar magazine")),
+        (4, _("Internet search")),
+        (5, _("Other"))
     )
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     account = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) #todo: blank=False
@@ -199,17 +207,25 @@ class Application(models.Model):
     college_received_acceptance_letter = models.NullBooleanField(_("I have received an acceptance letter."))
 
     # PAGE 3: ESSAY
-    essay = models.TextField(_("Essay (500 words max)"), blank=False, null=True, validators=[MaxWordsValidator(500)])
+    essay = models.TextField(
+        _("Essay (500 words max)"),
+        help_text=_("Tell us something, like a personal experience, that's not evident from your application. This is an opportunity to show us who you are."),
+        blank=False,
+        null=True,
+        validators=[MaxWordsValidator(500)])
     
     # PAGE 4: ACTIVITIES
     # Academic awards / honors / Athletics / Clubs / Extracurriculars / Work Experience / Other
     activities = JSONListSchemaField(_("Activities"), help_text=_("Please list your main extracurricular activities and work experience below: Include the grade level of your participation. Feel free to attach a resume or a more complete list (on the upload documents page) to supplement this list."),name='activities', blank=True, null=True)
 
     # PAGE 5: UPLOAD FILES:
-    file_resume = DocumentField(_("Please upload your resume if available."), blank=True, null=True)
+    # file_resume = DocumentField(_("Please upload your resume if available."), blank=True, null=True)
     file_sat_scores = DocumentField(_("Please upload SAT scores if applicable."), blank=True, null=True)
     file_act_scores = DocumentField(_("Please upload ACT scores if applicable."), blank=True, null=True)
-    file_transcript = DocumentField(_("Please upload your high school transcript."), blank=True, null=True)
+    file_transcript = DocumentField(
+        _("Please upload your high school transcript."),
+        help_text=_("Additionally, please send either a sealed paper copy to Rajesh Kurup (2137 Wisteria Way Atlanta GA 30317) or email an electronic copy from your guidance counselor to info@iasf.org."),
+        blank=True, null=True)
     
     file_finaid_cost = DocumentField(_("Financial aid package / cost of attendance letter from the university"), blank=True, null=True)
     file_finaid_tuition = DocumentField(_("Tuition bill for applicant / other dependents if necessary"), blank=True, null=True)
@@ -237,6 +253,7 @@ class Application(models.Model):
     finaid_needs_statement = models.TextField(_("Please describe any unusual financial circumstances in your family not listed previously on your application. You may include any information that will be beneficial to the Indian American Scholarship committee."), blank=True, null=True)
 
     # submit page:
+    where_heard = models.IntegerField(null=True, blank=False, choices=WHERE_HEARD_CHOICES, verbose_name="Where did you hear about the IASF scholarship program?")
     signature = models.CharField(_("Signature"), max_length=101, blank=True, null=True)
 
     # form meta fields.

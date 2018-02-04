@@ -1,6 +1,27 @@
 # IASF apply website
 Website for the Indian American Scholarship Foundation application.
-URL: http://apply.iasf.org/
+URL: https://apply.iasf.org/
+
+# Local dev setup
+db name: iasf
+user: test
+password: test
+host: localhost
+port: 5432
+
+psql -U postgres
+ALTER ROLE "test" WITH LOGIN;
+
+
+workon iasf
+python manage.py migrate
+python manage.py runserver
+        'NAME': os.environ.get('DATABASENAME', 'iasf'),
+        'USER': os.environ.get('DATABASEUSER', 'test'),
+        'PASSWORD': os.environ.get('DATABASEPASSWORD', 'test'),
+        'HOST': os.environ.get('DATABASEHOST', 'localhost'),
+        'PORT': os.environ.get('DATABASEPORT', '5432'),
+
 
 Django makes it easier to build better Web apps more quickly and with less code.[Get started with Django](https://www.djangoproject.com/start/)
 
