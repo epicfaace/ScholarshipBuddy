@@ -106,3 +106,12 @@ label.required::after {
 ul.errorlist {
     padding-left: 10px;
 }
+
+
+ul.messages {
+    font-weight: bold;
+}
+ul.messages li.error {
+    font-weight: normal;
+    color: red;
+}

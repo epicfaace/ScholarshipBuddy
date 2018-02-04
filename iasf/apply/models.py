@@ -133,8 +133,9 @@ class Application(models.Model):
             "submitPage": True,
             "fields": (
                 ("Sign and submit", {"fields": (
-                    "signature",)
+                    "where_heard",)
                 }),
+                ("signature",)
             )
         }
     ]
@@ -254,7 +255,7 @@ class Application(models.Model):
 
     # submit page:
     where_heard = models.IntegerField(null=True, blank=False, choices=WHERE_HEARD_CHOICES, verbose_name="Where did you hear about the IASF scholarship program?")
-    signature = models.CharField(_("Signature"), max_length=101, blank=True, null=True)
+    signature = models.CharField(_("Signature"), max_length=101, blank=True, null=True, help_text=_(""))
 
     # form meta fields.
     date_created = models.DateField(null=True, blank=True)
