@@ -12,15 +12,20 @@ port: 5432
 psql -U postgres
 ALTER ROLE "test" WITH LOGIN;
 
-
+cd /mnt/c/Users/arama/git/IASF%20Application%20Website/iasf
+pip install virtualenvwrapper
+in .bashrc, add:```
+source "/usr/bin/virtualenvwrapper.sh"
+export WORKON_HOME="/opt/virtual_env/"
+```
+```
+mkvirtualenv iasf
 workon iasf
+pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
-        'NAME': os.environ.get('DATABASENAME', 'iasf'),
-        'USER': os.environ.get('DATABASEUSER', 'test'),
-        'PASSWORD': os.environ.get('DATABASEPASSWORD', 'test'),
-        'HOST': os.environ.get('DATABASEHOST', 'localhost'),
-        'PORT': os.environ.get('DATABASEPORT', '5432'),
+```
+
 
 
 Django makes it easier to build better Web apps more quickly and with less code.[Get started with Django](https://www.djangoproject.com/start/)
