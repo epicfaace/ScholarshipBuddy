@@ -18,6 +18,7 @@ class ApplicationNew(LoginRequiredMixin, View):
             email=self.request.user.email,
             date_created=datetime.now(),
             date_last_modified=datetime.now(),
+            submitted=False,
             finaid_applying_for=int(self.kwargs['finaid_applying_for'])==1
         )
         application.save()
