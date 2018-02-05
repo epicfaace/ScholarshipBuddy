@@ -20,7 +20,10 @@
         <br>
         <strong>Date created:</strong> {{ app.date_created }}<br>
         <strong>Date last modified:</strong> {{ app.date_last_modified }}<Br>
-        <strong>Deadline:</strong> TBA<!-- todo update this --><br>
+        <strong>Deadline:</strong> May 1, 2018<!-- todo update this --><br>
+        <h4>
+            <strong>Current Application Status: {% if app.submitted %}<font color=green>Submitted - In Review</font>{% else %}<font color=red>Not submitted</font>{% endif %}</strong>
+        </h4>
             <br>
             <a href="{% url 'apply:form-page-start' %}">
                 <button class="btn btn-primary">

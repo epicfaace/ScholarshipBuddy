@@ -20,6 +20,8 @@ Other: Blank space for manual entry
 
 - Application deadline will be May 1st.
 
+- Better error list formatting
+
 
 # 0.9.0
 Jan 2018

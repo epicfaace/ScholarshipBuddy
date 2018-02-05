@@ -261,6 +261,7 @@ class Application(models.Model):
     date_created = models.DateField(null=True, blank=True)
     date_last_modified = models.DateField(null=True, blank=True)
     date_last_submitted = models.DateField(null=True, blank=True)
+    submitted = models.BooleanField(default=False, editable=False)
     year = models.IntegerField(null=False, blank=False, default="2018")
 
     def __str__(self):

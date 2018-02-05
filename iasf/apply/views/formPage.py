@@ -57,9 +57,11 @@ class FormPage(AjaxableResponseMixin, UpdateView):
         completedApp = self.get_object()
         completedApp.date_last_modified = datetime.now()
         if (Application.getIsSubmitPage(step)):
+            super(FormPage, self).post(request, *args, **kwargs)
             try:
                 completedApp.full_clean()
                 completedApp.date_last_submitted = datetime.now()
+                completedApp.submitted = True
                 completedApp.save()
                 # todo: redirect to success page.
                 return HttpResponseRedirect(reverse_lazy('apply:application-list')) #todo: success
