@@ -38,7 +38,7 @@ class ReviewView(UserIsStaffMixin, TemplateView):
                     super(ApplicationFormCustom, self).__init__(*args, **kwargs)
                     for field in self.fields:
                         self.fields[field].widget.attrs['disabled'] = True
-                        self.fields[field].widget.attrs['class'] += 'form-control form-control-sm'
+                        self.fields[field].widget.attrs['class'] = self.fields[field].widget.attrs.get('class', '') + 'form-control form-control-sm'
                 class Meta(ApplicationForm.Meta):
                     fieldsets = Application.getFields(step)
             self.form_class = ApplicationFormCustom
