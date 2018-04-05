@@ -21,7 +21,7 @@ SENDGRID_API_KEY = "XXX"
 ```
 (Note: you must set up Azure Blob Storage Account and SendGrid account to get the proper keys)
 
-1. Now install requirements and run the Django development server in your browser.
+2. Now install requirements and run the Django development server in your browser.
 ```
 pip install -r requirements.txt
 python manage.py makemigrations
@@ -29,4 +29,4 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-1. Open http://localhost:8000 in your browser to run the development server.
+3. Open http://localhost:8000 in your browser to run the development server.
