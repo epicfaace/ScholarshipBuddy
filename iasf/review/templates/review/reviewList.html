@@ -9,9 +9,9 @@
         <li{% if filter_type == "financial" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'financial' %}">Financial</a></li>
     </ul>
     <ul class="nav nav-tabs">
-        <li{% if filter_submitted == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'all' %}">All</a></li>
-        <li{% if filter_submitted == "progress" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'progress' %}">In progress</a></li>
-        <li{% if filter_submitted == "submitted" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'submitted' %}">Submitted</a></li>
+        <li{% if filter_submitted == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list' filter_type 'all' %}">All</a></li>
+        <li{% if filter_submitted == "progress" %} class="active" {% endif %}><a href="{% url 'review:review-list' filter_type 'progress' %}">In progress</a></li>
+        <li{% if filter_submitted == "submitted" %} class="active" {% endif %}><a href="{% url 'review:review-list' filter_type 'submitted' %}">Submitted</a></li>
     </ul>
 
     {% if object_list %}
