@@ -2,6 +2,7 @@ from django.views.generic.list import ListView
 from django.utils import timezone
 from iasf.apply.models import Application
 from iasf.review.mixins import UserIsStaffMixin
+from django.views.generic.base import TemplateView
     
 class ReviewList(UserIsStaffMixin, ListView):
     model = Application

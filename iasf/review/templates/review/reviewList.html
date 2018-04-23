@@ -50,6 +50,20 @@
       <p style="margin-top: 20px;">
           <b>Applications not found</b><br />
           There are no applications in this category yet.
-        </p>
-    {% endif %}       
+    </p>
+    {% endif %}
+    <hr />
+    <h1>Email users</h1>
+    <p>This will send an automated email to all the users above.</p>
+    <form method="POST" action="{% url 'review:send-email' %}">
+        {% csrf_token %}
+        <input class="form-control" type="text" name="recipients" value="{% for app in object_list %}{{app.email}}, {% endfor %}" placeholder="recipients"/>
+        <input class="form-control" type="text" name="subject" placeholder="Subject"/>
+        <textarea class="form-control" name="body" placeholder="Body"></textarea>
+        <!--div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="test">
+            <label class="form-check-label" for="exampleCheck1">Send me a test email</label>
+        </div-->
+        <input type="submit" class="btn" />
+    </form>  
 {% endblock content %}
