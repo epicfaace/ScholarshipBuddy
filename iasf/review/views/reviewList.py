@@ -9,15 +9,24 @@ class ReviewList(UserIsStaffMixin, ListView):
     login_url = 'login'
 
     def get_queryset(self):
-        if not 'filter' in self.kwargs: self.kwargs['filter'] = 'all'
-        if self.kwargs['filter'] == 'merit':
-            return Application.objects.filter(finaid_applying_for=False)
-        elif self.kwargs['filter'] == 'financial':
-            return Application.objects.filter(finaid_applying_for=True)
-        else:
-            return Application.objects.all()
+        query_kwargs = {}
+        filter_type = self.kwargs.setdefault('filter_type', 'all')
+        filter_submitted = self.kwargs.setdefault('filter_submitted', 'all')
+        if filter_type == 'merit':
+            query_kwargs["finaid_applying_for"] = False
+        elif filter_type == 'financial':
+            query_kwargs["finaid_applying_for"] = True
+        if filter_submitted == 'submitted':
+            query_kwargs["submitted"] = True
+        elif filter_submitted == 'progress':
+            query_kwargs["submitted"] = False
+        return Application.objects.filter(**query_kwargs)
+        
+        # else:
+        #     return Application.objects.all()
     
     def get_context_data(self, **kwargs):
         context = super(ReviewList, self).get_context_data(**kwargs)
-        context['filter'] = self.kwargs['filter']
+        context['filter_type'] = self.kwargs['filter_type']
+        context['filter_submitted'] = self.kwargs['filter_submitted']
         return context

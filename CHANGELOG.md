@@ -1,8 +1,12 @@
 Future release:
 widget=widgets.Select(attrs={'class':'iasf-select-other'})
 
+# 1.0.1 (tbd)
+- Allow for filtering by submitted, in progress, etc.
+- Bulk reminder email sending functionality.
+
 # 1.0.0
-Feb 4 2018
+4/22/18
 Initial release
 
 - Essay - Added the following language "Tell us something, like a personal experience, that's not evident from your application.This is an opportunity to show us who you are."

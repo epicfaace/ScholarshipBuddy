@@ -4,9 +4,14 @@
     <h1>Review Application List</h1>
 
     <ul class="nav nav-tabs">
-        <li{% if filter == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'all' %}">All</a></li>
-        <li{% if filter == "merit" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'merit' %}">Merit</a></li>
-        <li{% if filter == "financial" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'financial' %}">Financial</a></li>
+        <li{% if filter_type == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'all' %}">All</a></li>
+        <li{% if filter_type == "merit" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'merit' %}">Merit</a></li>
+        <li{% if filter_type == "financial" %} class="active" {% endif %}><a href="{% url 'review:review-list' 'financial' %}">Financial</a></li>
+    </ul>
+    <ul class="nav nav-tabs">
+        <li{% if filter_submitted == "all" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'all' %}">All</a></li>
+        <li{% if filter_submitted == "progress" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'progress' %}">In progress</a></li>
+        <li{% if filter_submitted == "submitted" %} class="active" {% endif %}><a href="{% url 'review:review-list-status' filter_type 'submitted' %}">Submitted</a></li>
     </ul>
 
     {% if object_list %}
@@ -42,6 +47,9 @@
         {% endfor %}
     </table>
     {% else %}
-      <p>There are no applications in this category yet.</p>
+      <p style="margin-top: 20px;">
+          <b>Applications not found</b><br />
+          There are no applications in this category yet.
+        </p>
     {% endif %}       
 {% endblock content %}
