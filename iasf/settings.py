@@ -180,3 +180,5 @@ SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # django-registration settings
 ACCOUNT_ACTIVATION_DAYS = 14
+
+DEFAULT_FROM_EMAIL = "info@iasf.org"
