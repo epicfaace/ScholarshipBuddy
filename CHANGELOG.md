@@ -1,7 +1,10 @@
 Future release:
 widget=widgets.Select(attrs={'class':'iasf-select-other'})
 
-# 1.0.1 (tbd)
+Todo:
+- ability to stop registrations.
+
+# 1.0.1 (4/22/18)
 - Allow for filtering by submitted, in progress, etc.
 - Bulk reminder email sending functionality.
 
