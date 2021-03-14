@@ -42,3 +42,4 @@ docker_ssh_key
 .env
 *.csv
 .DS_Store
+notes.md
