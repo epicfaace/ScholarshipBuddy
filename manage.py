@@ -5,6 +5,8 @@ Command-line utility for administrative tasks.
 
 import os
 import sys
+from dotenv import load_dotenv
+load_dotenv()
 
 if __name__ == "__main__":
     os.environ.setdefault(

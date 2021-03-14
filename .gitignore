@@ -38,3 +38,7 @@ coverage.xml
 **/secret.py
 
 docker_ssh_key
+
+.env
+*.csv
+.DS_Store
